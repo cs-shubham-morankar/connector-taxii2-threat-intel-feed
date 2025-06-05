@@ -130,6 +130,16 @@
         "description": "The Password/API Password that is configured for your account to access the TAXII2 Threat Intelligence Feed APIs."
       },
       {
+        "title": "Headers",
+        "name": "headers",
+        "visible": true,
+        "required": false,
+        "editable": true,
+        "type": "json",
+        "tooltip": "Specify custom headers to be used in the API request.",
+        "description": "Specify custom headers to be used in the API request."
+      },
+      {
         "title": "Verify SSL",
         "required": false,
         "editable": true,
@@ -170,6 +180,16 @@
           "type": "text",
           "tooltip": "The ID of the collection whose general information you want to retrieve from TAXII2 Threat Intelligence Feed",
           "description": "Specify the ID of the collection whose general information, such as ID, Title, Description, Can Read, Can Write, and Media Types you want to retrieve from TAXII2 Threat Intelligence Feed."
+        },
+        {
+          "title": "Headers",
+          "name": "headers",
+          "visible": true,
+          "required": false,
+          "editable": true,
+          "type": "json",
+          "tooltip": "Optional headers. If provided, these will override the headers provided in configuration.",
+          "description": "Specify custom headers for the request. When provided, these will override the headers provided in configuration."
         }
       ],
       "enabled": true
@@ -254,6 +274,16 @@
           "required": false,
           "tooltip": "Select this option to retrieve all records from collection.",
           "description": "(Optional) Select this option to retrieve all records from the specified collection."
+        },
+        {
+          "title": "Headers",
+          "name": "headers",
+          "visible": true,
+          "required": false,
+          "editable": true,
+          "type": "json",
+          "tooltip": "Optional headers. If provided, these will override the headers provided in configuration.",
+          "description": "Specify custom headers for the request. When provided, these will override the headers provided in configuration."
         }
       ],
       "enabled": true
@@ -306,6 +336,16 @@
           "required": false,
           "tooltip": "Select this option to retrieve all records from collection.",
           "description": "(Optional) Select this option to retrieve all records from the specified collection."
+        },
+        {
+          "title": "Headers",
+          "name": "headers",
+          "visible": true,
+          "required": false,
+          "editable": true,
+          "type": "json",
+          "tooltip": "Optional headers. If provided, these will override the headers provided in configuration.",
+          "description": "Specify custom headers for the request. When provided, these will override the headers provided in configuration."
         }
       ],
       "enabled": true

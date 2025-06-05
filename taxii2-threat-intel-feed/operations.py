@@ -10,11 +10,11 @@ import requests
 import uuid
 from connectors.cyops_utilities.builtins import create_file_from_string
 from connectors.core.connector import get_logger, ConnectorError
-from connectors.cyops_utilities.files import get_ingestion_base_dir
 from datetime import datetime
 
 try:
     from integrations.crudhub import trigger_ingest_playbook
+    from connectors.cyops_utilities.files import get_ingestion_base_dir
 except:
     # ignore. lower FSR version
     pass
@@ -36,6 +36,7 @@ class TAXIIFeed(object):
         usr_pass = usr_pass.encode()
         b64val = base64.b64encode(usr_pass)
         token = 'Basic {}'.format(b64val.decode("utf-8"))
+        self.custom_headers = config.get('headers') or {}
         self.headers = {'Authorization': token}
         self.verify_ssl = config.get('verify_ssl')
         self.error_msg = {
@@ -56,6 +57,13 @@ class TAXIIFeed(object):
         try:
             endpoint = self.server_url + endpoint
             headers = {**self.headers, **headers} if headers is not None and headers != '' else self.headers
+            # CURL UTILS CODE
+            try:
+                from connectors.debug_utils.curl_script import make_curl
+                make_curl(method, endpoint, headers=headers, params=params, data=data, verify_ssl=self.verify_ssl)
+            except Exception as err:
+                logger.debug(f"Error in curl utils: {str(err)}")
+
             response = requests.request(method,
                                         endpoint,
                                         data=data,
@@ -80,11 +88,11 @@ class TAXIIFeed(object):
             logger.exception('{}'.format(e))
             raise ConnectorError('{}'.format(e))
 
-    def get_api_root_information(self, endpoint, health_check=False, **kwargs):
+    def get_api_root_information(self, endpoint, headers=None, health_check=False, **kwargs):
         if health_check:
-            headers = {'Content-Type': 'application/json', 'Accept': 'application/vnd.oasis.taxii+json;version=2.0'}
+            headers = headers or {'Content-Type': 'application/json', 'Accept': 'application/vnd.oasis.taxii+json;version=2.0'}
         else:
-            headers = {'Content-Type': 'application/json'}
+            headers = headers or {'Content-Type': 'taxii+json;version=2.1', 'Accept': 'application/taxii+json;version=2.1'}
         api_root = self.make_request(endpoint=endpoint, headers=headers)
         logger.debug("First Response: {0}".format(api_root))
         try:
@@ -137,8 +145,9 @@ def get_output_schema(config, params, **kwargs):
 
 def get_collections(config, params, **kwargs):
     taxii = TAXIIFeed(config)
-    api_root = taxii.get_api_root_information(endpoint='taxii2/', **kwargs)
-    headers = {'Content-Type': 'application/json', 'Accept': 'application/vnd.oasis.taxii+json;version=2.0'}
+    custom_headers = params.pop('headers', '') or taxii.custom_headers
+    api_root = taxii.get_api_root_information(endpoint='taxii2/', headers=custom_headers, **kwargs)
+    headers = custom_headers or {'Content-Type': 'taxii+json;version=2.1', 'Accept': 'application/taxii+json;version=2.1'}
     response_headers = taxii.make_request(endpoint=api_root, headers=headers, api_info='api_root_info')
     headers = {'Accept': response_headers['Content-Type']}
     params = {k: v for k, v in params.items() if v is not None and v != ''}
@@ -156,8 +165,9 @@ def get_collections(config, params, **kwargs):
 
 def get_objects_by_collection_id(config, params, **kwargs):
     taxii = TAXIIFeed(config)
-    api_root = taxii.get_api_root_information(endpoint='taxii2/', **kwargs)
-    headers = {'Content-Type': 'application/json', 'Accept': 'application/vnd.oasis.taxii+json;version=2.0'}
+    custom_headers = params.pop('headers', '') or taxii.custom_headers
+    api_root = taxii.get_api_root_information(endpoint='taxii2/', headers=custom_headers, **kwargs)
+    headers = custom_headers or {'Content-Type': 'taxii+json;version=2.1', 'Accept': 'application/taxii+json;version=2.1'}
     response_headers = taxii.make_request(endpoint=api_root, headers=headers, api_info='api_root_info')
     headers = {'Accept': response_headers['Content-Type']}
     params = get_params(params)
@@ -165,18 +175,18 @@ def get_objects_by_collection_id(config, params, **kwargs):
     mode = params.get('output_mode')
     query_params = {k: params[k] for k in params.keys() & wanted_keys}
     try:
-        response = taxii.make_request(endpoint=api_root + 'collections/' + str(params['collectionID']) + '/objects',
+        response = taxii.make_request(endpoint=api_root + 'collections/' + str(params['collectionID']) + '/objects/',
                                       params=query_params, headers=headers)
         if params.get('fetch_all_records'):
             result = response
             next_key = response.get('next')
             while next_key:
                 response = taxii.make_request(
-                    endpoint=api_root + 'collections/' + str(params['collectionID']) + '/objects' + '?next={}'.format(
+                    endpoint=api_root + 'collections/' + str(params['collectionID']) + '/objects/' + '?next={}'.format(
                         next_key),
                     params=query_params, headers=headers)
                 result['objects'].extend(response.get('objects'))
-                next_key = response.json().get('next')
+                next_key = response.get('next')
             response = result.get("objects", [])
         else:
             response = response.get("objects", [])
@@ -207,8 +217,9 @@ def download_indicators(config, params, **kwargs):
     config_id = config.get('config_id')
 
     # Get API root endpoint and collection IDs
-    api_root = taxii.get_api_root_information(endpoint='taxii2/', **kwargs)
-    collections_response = get_collections(config, params={}, **kwargs)
+    custom_headers = params.pop('headers', '') or taxii.custom_headers
+    api_root = taxii.get_api_root_information(endpoint='taxii2/', headers=custom_headers, **kwargs)
+    collections_response = get_collections(config, params={'headers': custom_headers}, **kwargs)
 
     if collections_response.get("collections"):
         collection_ids = [
@@ -218,10 +229,7 @@ def download_indicators(config, params, **kwargs):
         ]
 
     # Prepare headers for TAXII requests
-    headers = {
-        'Content-Type': 'application/json',
-        'Accept': 'application/vnd.oasis.taxii+json;version=2.0'
-    }
+    headers = custom_headers or {'Content-Type': 'application/json', 'Accept': 'application/vnd.oasis.taxii+json;version=2.0'}
     response_headers = taxii.make_request(endpoint=api_root, headers=headers, api_info='api_root_info')
     headers = {'Accept': response_headers['Content-Type']}
 
@@ -283,7 +291,7 @@ def download_indicators(config, params, **kwargs):
 def _check_health(config, **kwargs):
     try:
         taxii = TAXIIFeed(config)
-        res = taxii.get_api_root_information(endpoint='taxii2/', health_check=True, **kwargs)
+        res = taxii.get_api_root_information(endpoint='taxii2/', headers=taxii.custom_headers, health_check=True, **kwargs)
         if res:
             logger.info('connector available')
             return True
