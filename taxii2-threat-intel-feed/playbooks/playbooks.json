@@ -157,7 +157,7 @@
               "description": null,
               "arguments": {
                 "for_each": {
-                  "item": "{{vars.input.params.ingestedData}}",
+                  "item": "{{vars.ingestedData}}",
                   "__bulk": true,
                   "parallel": false,
                   "condition": "",

@@ -348,7 +348,8 @@
           "description": "Specify custom headers for the request. When provided, these will override the headers provided in configuration."
         }
       ],
-      "enabled": true
+      "enabled": true,
+      "visible": false
     },
     {
       "operation": "get_output_schema",
