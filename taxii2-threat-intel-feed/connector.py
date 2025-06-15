@@ -21,7 +21,7 @@ class TAXIIFeedCon(Connector):
             # changes for fcp/tip specific so it dsnt break on fsr
             if 'connector_name' in kwargs:
                 kwargs.pop('connector_name')
-            return operation(config, params)
+            return operation(config, params, **kwargs)
         except Exception as err:
             logger.error('{}'.format(err))
             raise ConnectorError('{}'.format(err))
