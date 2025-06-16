@@ -1,0 +1,183 @@
+{
+  "type": "playbook_collections",
+  "data": [
+    {
+      "@id": "/api/workflow/playbook-collections/659c2e8a-cd27-4bd7-97be-97d00a5fb6d7/",
+      "uuid": "659c2e8a-cd27-4bd7-97be-97d00a5fb6d7",
+      "createDate": "2025-06-10T14:25:29.834135Z",
+      "modifyDate": "2025-06-10T14:25:29.873557Z",
+      "deletedAt": null,
+      "name": "Sample - TAXII2 Threat Intel Feed - 1.2.0",
+      "description": "Sample playbooks for \"TAXII2 Threat Intel Feed\" connector. If you are planning to use any of the sample playbooks in your environment, ensure that you clone those playbooks and move them to a different collection, since the sample playbook collection gets deleted during connector upgrade and delete.",
+      "visible": true,
+      "image": null,
+      "importedBy": {},
+      "createUser": "acdf7910-f7f8-490f-9862-448a395a9bee",
+      "modifyUser": "acdf7910-f7f8-490f-9862-448a395a9bee",
+      "tags": [],
+      "@type": "WorkflowCollection",
+      "playbooks": [
+        {
+          "@id": "/api/workflow/playbooks/7c513e30-7e88-4fcd-ad7f-ebe70673e6c4/",
+          "uuid": "7c513e30-7e88-4fcd-ad7f-ebe70673e6c4",
+          "name": "TAXII2 Threat Intel Indicators Integration",
+          "createDate": "2025-06-10T14:25:29.856785Z",
+          "modifyDate": "2025-06-11T05:51:05.923403Z",
+          "priority": "medium",
+          "triggerLimit": null,
+          "steps": [
+            {
+              "uuid": "f6c4f771-bbc6-474c-8c5f-3d7ae75f3ee9",
+              "workflow": "7c513e30-7e88-4fcd-ad7f-ebe70673e6c4",
+              "name": "Start",
+              "description": null,
+              "arguments": {
+                "__triggerLimit": true,
+                "step_variables": {
+                  "input": {
+                    "params": []
+                  },
+                  "ingestion_config": "{{ vars.request.data.input.param.ingestion_connector_config.ingestion_config }}",
+                  "ingestion_config_id": "{{ vars.request.data.input.param.ingestion_connector_config.config_id }}",
+                  "ingest_mapping_template": "{{ vars.request.data.input.param.ingestion_connector_config.ingest_mapping_template }}",
+                  "ingestion_last_pull_datetime": "{{ vars.request.data.input.param.ingestion_connector_config.ingestion_config.last_pull_datetime }}"
+                },
+                "triggerOnSource": true,
+                "triggerOnReplicate": false
+              },
+              "status": null,
+              "top": "-1",
+              "left": "0",
+              "workflowgroup": null,
+              "stepType": "b348f017-9a94-471f-87f8-ce88b6a7ad62",
+              "@type": "WorkflowStep"
+            },
+            {
+              "uuid": "93c83805-7658-4467-88fa-b1a7fef8df74",
+              "workflow": "7c513e30-7e88-4fcd-ad7f-ebe70673e6c4",
+              "name": "Ingest Indicators",
+              "description": null,
+              "arguments": {
+                "name": "Data Ingestion Helper",
+                "agent": "1090529_deploy_1",
+                "config": "",
+                "params": {
+                  "source": "{{ vars.steps[\"Download Indicators\"].data.files }}",
+                  "service": "tip",
+                  "entity_type": "indicator",
+                  "ingest_config": "{{ vars.ingestion_config }}",
+                  "transform_template": "{{ vars.ingest_mapping_template }}",
+                  "connector_config_id": "{{ vars.ingestion_config_id }}",
+                  "updated_last_pull_time": "{{ vars.steps[\"Download Indicators\"].data.last_pull_datetime }}"
+                },
+                "version": "1.0.0",
+                "connector": "dih",
+                "operation": "ingest_indicator",
+                "pickFromTenant": false
+              },
+              "status": null,
+              "top": "0",
+              "left": "920",
+              "workflowgroup": null,
+              "stepType": "0bfed618-0316-11e7-93ae-92361f002671",
+              "@type": "WorkflowStep"
+            },
+            {
+              "uuid": "15bc2e17-a9f6-4b1f-8d91-c10683dbf830",
+              "workflow": "7c513e30-7e88-4fcd-ad7f-ebe70673e6c4",
+              "name": "Download Indicators",
+              "description": null,
+              "arguments": {
+                "name": "TAXII2 Threat Intel Feed",
+                "config": "{{ vars.ingestion_config_id }}",
+                "params": {
+                  "headers": "",
+                  "added_after": "{{ vars.ingestion_last_pull_datetime }}",
+                  "fetch_all_records": false
+                },
+                "version": "1.2.0",
+                "connector": "taxii2-threat-intel-feed",
+                "operation": "download_indicators",
+                "pickFromTenant": false
+              },
+              "status": null,
+              "top": "0",
+              "left": "460",
+              "workflowgroup": null,
+              "stepType": "0bfed618-0316-11e7-93ae-92361f002671",
+              "@type": "WorkflowStep"
+            }
+          ],
+          "routes": [
+            {
+              "@id": "/api/workflow/playbook-routes/f027e4ab-efe5-4d3e-b119-a29d3039748d/",
+              "uuid": "f027e4ab-efe5-4d3e-b119-a29d3039748d",
+              "name": "Start->Download Indicators1",
+              "data": {
+                "label": ""
+              },
+              "isExecuted": false,
+              "sourcestep": "f6c4f771-bbc6-474c-8c5f-3d7ae75f3ee9",
+              "targetstep": "15bc2e17-a9f6-4b1f-8d91-c10683dbf830",
+              "workflowgroup": null,
+              "workflow": "7c513e30-7e88-4fcd-ad7f-ebe70673e6c4",
+              "@type": "WorkflowRoute"
+            },
+            {
+              "@id": "/api/workflow/playbook-routes/afd848eb-2ba8-42a9-b8d5-7ce0bbe0a68e/",
+              "uuid": "afd848eb-2ba8-42a9-b8d5-7ce0bbe0a68e",
+              "name": "12fd2370-ff8c-4884-ace8-82e2cb2a2a03",
+              "data": {
+                "label": ""
+              },
+              "isExecuted": false,
+              "sourcestep": "15bc2e17-a9f6-4b1f-8d91-c10683dbf830",
+              "targetstep": "93c83805-7658-4467-88fa-b1a7fef8df74",
+              "workflowgroup": null,
+              "workflow": "7c513e30-7e88-4fcd-ad7f-ebe70673e6c4",
+              "@type": "WorkflowRoute"
+            }
+          ],
+          "groups": [],
+          "aliasName": null,
+          "tags": [
+            "dataingestion",
+            "fcp"
+          ],
+          "description": "This playbook will fetch the indicators from TAXII2 Threat Intel Feed and ingest in threat intel service",
+          "isActive": false,
+          "debug": true,
+          "singleRecordExecution": false,
+          "remoteExecutableFlag": false,
+          "parameters": null,
+          "synchronous": false,
+          "isPrivate": false,
+          "pinned": false,
+          "lastModifyDate": 1749621066,
+          "deletedAt": null,
+          "importedBy": null,
+          "collection": {
+            "@id": "/api/workflow/playbook-collections/659c2e8a-cd27-4bd7-97be-97d00a5fb6d7/",
+            "uuid": "659c2e8a-cd27-4bd7-97be-97d00a5fb6d7",
+            "createDate": "2025-06-10T14:25:29.834135Z",
+            "modifyDate": "2025-06-10T14:25:29.873557Z",
+            "deletedAt": null,
+            "name": "Sample - TAXII2 Threat Intel Feed - 1.2.0",
+            "description": "Sample playbooks for \"TAXII2 Threat Intel Feed\" connector. If you are planning to use any of the sample playbooks in your environment, ensure that you clone those playbooks and move them to a different collection, since the sample playbook collection gets deleted during connector upgrade and delete.",
+            "visible": true,
+            "image": null,
+            "importedBy": {},
+            "createUser": "acdf7910-f7f8-490f-9862-448a395a9bee",
+            "modifyUser": "acdf7910-f7f8-490f-9862-448a395a9bee",
+            "tags": [],
+            "@type": "WorkflowCollection"
+          },
+          "triggerstep": "f6c4f771-bbc6-474c-8c5f-3d7ae75f3ee9",
+          "createUser": "acdf7910-f7f8-490f-9862-448a395a9bee",
+          "modifyUser": "15722cc9-c13a-41f0-b4b4-158caf482e3a",
+          "@type": "Workflow"
+        }
+      ]
+    }
+  ]
+}

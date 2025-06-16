@@ -13,10 +13,14 @@ from connectors.core.connector import get_logger, ConnectorError
 from datetime import datetime
 
 try:
-    from integrations.crudhub import trigger_ingest_playbook
     from connectors.cyops_utilities.files import get_ingestion_base_dir
 except:
     # ignore. lower FSR version
+    pass
+
+try:
+    from integrations.crudhub import trigger_ingest_playbook
+except:
     pass
 
 logger = get_logger('taxii2-threat-intel-feed')
@@ -229,9 +233,8 @@ def download_indicators(config, params, **kwargs):
         ]
 
     # Prepare headers for TAXII requests
-    headers = custom_headers or {'Content-Type': 'application/json', 'Accept': 'application/vnd.oasis.taxii+json;version=2.0'}
+    headers = custom_headers or {'Content-Type': 'taxii+json;version=2.1', 'Accept': 'application/taxii+json;version=2.1'}
     response_headers = taxii.make_request(endpoint=api_root, headers=headers, api_info='api_root_info')
-    headers = {'Accept': response_headers['Content-Type']}
 
     # Extract query parameters
     params = get_params(params)
@@ -266,24 +269,17 @@ def download_indicators(config, params, **kwargs):
 
     # Save results to file
     base_indicator_dir = get_ingestion_base_dir(**kwargs)
+    config_dir = base_indicator_dir + config_id + '/'
+    logger.error("Config Dire {0}".format(config_dir))
     try:
-        os.makedirs(base_indicator_dir, exist_ok=True)
+        os.makedirs(config_dir, exist_ok=True)
     except Exception as e:
-        logger.warning(f"Failed to create base directory '{base_indicator_dir}', using /tmp/. Error: {e}")
-        base_indicator_dir = '/tmp/'
-
-    config_dir = os.path.join(base_indicator_dir, config_id)
-    os.makedirs(config_dir, exist_ok=True)
-
-    file_name = f"{uuid.uuid4()}.json"
+        logger.error("Errorrrrrrrrrrrrr %s" % str(e))
+        pass
+    file_name = str(uuid.uuid4()) + '.json'
     file_path = os.path.join(config_dir, file_name)
-
-    try:
-        with open(file_path, "w") as json_file:
-            json.dump(results, json_file, indent=2)
-    except Exception as e:
-        logger.error(f"Failed to write indicators to file: {file_path}. Error: {e}")
-        return {"files": [], "last_pull_datetime": None}
+    with open(file_path, "w") as json_file:
+        json.dump(results.get('indicators'), json_file, indent=2)
 
     return {"files": [file_path.replace(base_indicator_dir, '')], "last_pull_datetime": datetime.now()}
 

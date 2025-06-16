@@ -5,7 +5,7 @@
   "publisher": "Fortinet",
   "cs_approved": true,
   "cs_compatible": true,
-  "version": "1.1.0",
+  "version": "1.2.0",
   "category": "Threat Intelligence",
   "icon_small_name": "small.png",
   "icon_large_name": "large.png",
@@ -13,7 +13,7 @@
   "ingestion_modes": [
     "scheduled"
   ],
-  "help_online": "https://docs.fortinet.com/document/fortisoar/1.1.0/taxii2-threat-intel-feed/1094/taxii2-threat-intel-feed-v1-1-0",
+  "help_online": "",
   "ingestion_config_schema": [
     {
       "title": "Ingestion Begin From",
@@ -83,21 +83,22 @@
     }
   ],
   "ingest_mapping_template": {
-    "tLP": "{{vars.tlp_resolved}}",
+    "tlp": "{% if vars.tlp %}{{ vars.tlp }}{% endif %}",
     "value": "{{vars.pattern.split('= ')[-1].strip().replace(\" \",\"\")[1:-2]}}",
-    "source": "IBM X-Force",
-    "created": "{% if vars.created %}{{epoch_to_datetime(arrow.get(vars.created).int_timestamp + (vars.created | int)*24*60*60)}}{% else %}None{% endif %}",
+    "source": "TAXII2 Threat Intel Feed",
     "pattern": "{{ vars.pattern }}",
-    "modified": "{% if vars.modified %}{{epoch_to_datetime(arrow.get(vars.modified).int_timestamp + (vars.modified | int)*24*60*60)}}{% else %}None{% endif %}",
-    "sourceId": "{{ vars.id }}",
+    "created_on": "{% if vars.created %}{{epoch_to_datetime(arrow.get(vars.created).int_timestamp + (vars.created | int)*24*60*60)}}{% else %}{{ epoch_to_datetime(arrow.utcnow().int_timestamp) }}{% endif %}",
+    "modified_on": "{% if vars.modified %}{{epoch_to_datetime(arrow.get(vars.modified).int_timestamp + (vars.modified | int)*24*60*60)}}{% else %}{{ epoch_to_datetime(arrow.utcnow().int_timestamp) }}{% endif %}",
+    "source_id": "{{ vars.id }}",
     "__replace": "",
-    "expiresOn": "{% if vars.expiry %}{{epoch_to_datetime(arrow.get(vars.expiry).int_timestamp + (vars.expiry | int)*24*60*60)}}{% else %}None{% endif %}",
-    "validFrom": "{% if vars.valid_from %}{{epoch_to_datetime(arrow.get(vars.valid_from).int_timestamp + (vars.valid_from | int)*24*60*60)}}{% else %}None{% endif %}",
+    "expires_on": "{% if vars.expiry %}{{ epoch_to_datetime(arrow.utcnow().int_timestamp + (vars.expiry | int)*24*60*60) }}{% else %}None{% endif %}",
+    "valid_from": "{% if vars.valid_from %}{{epoch_to_datetime(arrow.get(vars.valid_from).int_timestamp + (vars.valid_from | int)*24*60*60)}}{% else %}{{ epoch_to_datetime(arrow.utcnow().int_timestamp) }}{% endif %}",
+    "valid_until": "{% if vars.valid_until %}{{ epoch_to_datetime(arrow.get(vars.valid_until).int_timestamp + (vars.expiry | int)*24*60*60) }}{% else %}{{ epoch_to_datetime(arrow.utcnow().int_timestamp + (vars.expiry | int)*24*60*60) }}{% endif %}",
     "confidence": "{% if vars.confidence %}{{ vars.confidence }}{% endif %}",
     "reputation": "{% if vars.reputation %}{{ vars.reputation }}{% endif %}",
     "sourceData": "{{ vars | toJSON}}",
-    "typeOfFeed": "",
-    "description": "<p>{{ vars.description }}</p>"
+    "type_of_feed": "{% if vars.pattern %}{{ vars.pattern.split(\" =\")[0].strip()[1:].replace(\":\", \"-\").replace(\".\", \"-\").replace(\"'\", \"\").replace(\" \", \"\") }}{% else %}None{% endif %}",
+    "description": "{% if vars.description %}{{ vars.description }}{% else %} Threat Indicator from TAXII2 Threat Intel for pattern: {{ vars.pattern }}{% endif %}"
   },
   "configuration": {
     "fields": [
@@ -165,8 +166,7 @@
             "title": "",
             "can_read": "",
             "can_write": "",
-            "media_types": [
-            ]
+            "media_types": []
           }
         ]
       },
@@ -296,26 +296,8 @@
       "category": "investigation",
       "annotation": "download_indicators",
       "output_schema": {
-        "indicators": [
-          {
-            "id": "",
-            "name": "",
-            "type": "",
-            "created": "",
-            "pattern": "",
-            "modified": "",
-            "confidence": "",
-            "valid_from": "",
-            "description": "",
-            "pattern_type": "",
-            "spec_version": "",
-            "indicator_types": [
-            ],
-            "pattern_version": "",
-            "object_marking_refs": [
-            ]
-          }
-        ]
+        "files": [],
+        "last_pull_datetime": ""
       },
       "parameters": [
         {
@@ -349,8 +331,7 @@
           "description": "Specify custom headers for the request. When provided, these will override the headers provided in configuration."
         }
       ],
-      "enabled": true,
-      "visible": false
+      "enabled": true
     },
     {
       "operation": "get_output_schema",
