@@ -13,6 +13,10 @@
   "ingestion_modes": [
     "scheduled"
   ],
+  "tags": [
+    "ThreatIntel",
+    "ThreatFeedsIngestion"
+  ],
   "help_online": "",
   "ingestion_config_schema": [
     {

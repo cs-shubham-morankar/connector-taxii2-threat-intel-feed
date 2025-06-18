@@ -7,10 +7,11 @@ Copyright end
 
 import base64, json, os
 import requests
-import uuid
+import uuid, time
 from connectors.cyops_utilities.builtins import create_file_from_string
 from connectors.core.connector import get_logger, ConnectorError
 from datetime import datetime
+from .constants import MAX_RETRY, SLEEP
 
 try:
     from connectors.cyops_utilities.files import get_ingestion_base_dir
@@ -67,17 +68,20 @@ class TAXIIFeed(object):
                 make_curl(method, endpoint, headers=headers, params=params, data=data, verify_ssl=self.verify_ssl)
             except Exception as err:
                 logger.debug(f"Error in curl utils: {str(err)}")
-
-            response = requests.request(method,
-                                        endpoint,
-                                        data=data,
-                                        headers=headers,
-                                        verify=self.verify_ssl,
-                                        params=params)
-            if (response.status_code == 200 or response.status_code == 206) and api_info == 'api_root_info':
-                return {'Content-Type': response.headers['Content-Type']}
-            if response.status_code == 200 or response.status_code == 206:
-                return response.json()
+            retry = 0
+            while retry < MAX_RETRY:
+                response = requests.request(method,
+                                            endpoint,
+                                            data=data,
+                                            headers=headers,
+                                            verify=self.verify_ssl,
+                                            params=params)
+                if (response.status_code == 200 or response.status_code == 206) and api_info == 'api_root_info':
+                    return {'Content-Type': response.headers['Content-Type']}
+                if response.status_code == 200 or response.status_code == 206:
+                    return response.json()
+                retry += 1
+                time.sleep(SLEEP)
             if self.error_msg[response.status_code]:
                 logger.error('{}'.format(response.content))
                 raise ConnectorError('{}'.format(self.error_msg[response.status_code]))
@@ -94,9 +98,11 @@ class TAXIIFeed(object):
 
     def get_api_root_information(self, endpoint, headers=None, health_check=False, **kwargs):
         if health_check:
-            headers = headers or {'Content-Type': 'application/json', 'Accept': 'application/vnd.oasis.taxii+json;version=2.0'}
+            headers = headers or {'Content-Type': 'application/json',
+                                  'Accept': 'application/vnd.oasis.taxii+json;version=2.0'}
         else:
-            headers = headers or {'Content-Type': 'taxii+json;version=2.1', 'Accept': 'application/taxii+json;version=2.1'}
+            headers = headers or {'Content-Type': 'taxii+json;version=2.1',
+                                  'Accept': 'application/taxii+json;version=2.1'}
         api_root = self.make_request(endpoint=endpoint, headers=headers)
         logger.debug("First Response: {0}".format(api_root))
         try:
@@ -151,7 +157,8 @@ def get_collections(config, params, **kwargs):
     taxii = TAXIIFeed(config)
     custom_headers = params.pop('headers', '') or taxii.custom_headers
     api_root = taxii.get_api_root_information(endpoint='taxii2/', headers=custom_headers, **kwargs)
-    headers = custom_headers or {'Content-Type': 'taxii+json;version=2.1', 'Accept': 'application/taxii+json;version=2.1'}
+    headers = custom_headers or {'Content-Type': 'taxii+json;version=2.1',
+                                 'Accept': 'application/taxii+json;version=2.1'}
     response_headers = taxii.make_request(endpoint=api_root, headers=headers, api_info='api_root_info')
     headers = {'Accept': response_headers['Content-Type']}
     params = {k: v for k, v in params.items() if v is not None and v != ''}
@@ -171,7 +178,8 @@ def get_objects_by_collection_id(config, params, **kwargs):
     taxii = TAXIIFeed(config)
     custom_headers = params.pop('headers', '') or taxii.custom_headers
     api_root = taxii.get_api_root_information(endpoint='taxii2/', headers=custom_headers, **kwargs)
-    headers = custom_headers or {'Content-Type': 'taxii+json;version=2.1', 'Accept': 'application/taxii+json;version=2.1'}
+    headers = custom_headers or {'Content-Type': 'taxii+json;version=2.1',
+                                 'Accept': 'application/taxii+json;version=2.1'}
     response_headers = taxii.make_request(endpoint=api_root, headers=headers, api_info='api_root_info')
     headers = {'Accept': response_headers['Content-Type']}
     params = get_params(params)
@@ -233,7 +241,8 @@ def download_indicators(config, params, **kwargs):
         ]
 
     # Prepare headers for TAXII requests
-    headers = custom_headers or {'Content-Type': 'taxii+json;version=2.1', 'Accept': 'application/taxii+json;version=2.1'}
+    headers = custom_headers or {'Content-Type': 'taxii+json;version=2.1',
+                                 'Accept': 'application/taxii+json;version=2.1'}
     response_headers = taxii.make_request(endpoint=api_root, headers=headers, api_info='api_root_info')
 
     # Extract query parameters
@@ -270,7 +279,6 @@ def download_indicators(config, params, **kwargs):
     # Save results to file
     base_indicator_dir = get_ingestion_base_dir(**kwargs)
     config_dir = base_indicator_dir + config_id + '/'
-    logger.error("Config Dire {0}".format(config_dir))
     try:
         os.makedirs(config_dir, exist_ok=True)
     except Exception as e:
@@ -287,7 +295,8 @@ def download_indicators(config, params, **kwargs):
 def _check_health(config, **kwargs):
     try:
         taxii = TAXIIFeed(config)
-        res = taxii.get_api_root_information(endpoint='taxii2/', headers=taxii.custom_headers, health_check=True, **kwargs)
+        res = taxii.get_api_root_information(endpoint='taxii2/', headers=taxii.custom_headers, health_check=True,
+                                             **kwargs)
         if res:
             logger.info('connector available')
             return True
