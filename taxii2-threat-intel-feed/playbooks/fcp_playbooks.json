@@ -20,7 +20,7 @@
         {
           "@id": "/api/workflow/playbooks/7c513e30-7e88-4fcd-ad7f-ebe70673e6c4/",
           "uuid": "7c513e30-7e88-4fcd-ad7f-ebe70673e6c4",
-          "name": "TAXII2 Threat Intel Indicators Integration",
+          "name": "TAXII2 Threat Intel Feed Ingestion",
           "createDate": "2025-06-10T14:25:29.856785Z",
           "modifyDate": "2025-06-11T05:51:05.923403Z",
           "priority": "medium",
