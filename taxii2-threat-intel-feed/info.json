@@ -296,8 +296,7 @@
     {
       "operation": "download_indicators",
       "title": "Download Indicators",
-      "description": "Retrieves all available objects from a collection to which the users have access from TAXII2 Threat Intel Feed, based on the input parameters you have specified. 
-Note: This action is currently not supported in FortiSOAR.",
+      "description": "Retrieves all available objects from a collection to which the users have access from TAXII2 Threat Intel Feed, based on the input parameters you have specified. Note: This action is currently not supported in FortiSOAR.",
       "category": "investigation",
       "annotation": "download_indicators",
       "output_schema": {
