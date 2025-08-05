@@ -17,7 +17,7 @@
     "ThreatIntel",
     "ThreatFeedsIngestion"
   ],
-  "help_online": "",
+  "help_online": "https://docs.fortinet.com/document/fortisoar/1.2.0/taxii2-threat-intel-feed/1754383817/taxii2-threat-intel-feed-v1-2-0",
   "ingestion_config_schema": [
     {
       "title": "Ingestion Begin From",
@@ -296,7 +296,8 @@
     {
       "operation": "download_indicators",
       "title": "Download Indicators",
-      "description": "Retrieves all available objects from a collection to which the users have access from TAXII2 Threat Intel Feed, based on the input parameters you have specified.",
+      "description": "Retrieves all available objects from a collection to which the users have access from TAXII2 Threat Intel Feed, based on the input parameters you have specified. 
+Note: This action is currently not supported in FortiSOAR.",
       "category": "investigation",
       "annotation": "download_indicators",
       "output_schema": {
@@ -306,13 +307,13 @@
       "parameters": [
         {
           "title": "Last Pull Time",
-          "description": "(Optional) Specify the time the feeds were last pulled from TAXII2 Threat Intel Feed. In this case, the data will be returned from the TAXII2 Threat Intel Feed only if the feed has been refreshed after the specified time.",
+          "description": "(Optional) Specify the DateTime the feeds were last pulled from TAXII2 Threat Intel Feed. In this case, data will only be returned if the feed has been refreshed after the specified time.",
           "type": "datetime",
           "name": "added_after",
           "required": false,
           "editable": true,
           "visible": true,
-          "tooltip": "(Optional) Specify the time the feeds were last pulled from TAXII2 Threat Intel Feed. In this case, the data will be returned from the TAXII2 Threat Intel Feed only if the feed has been refreshed after the specified time."
+          "tooltip": "(Optional) Specify the DateTime the feeds were last pulled from TAXII2 Threat Intel Feed. In this case, data will only be returned if the feed has been refreshed after the specified time."
         },
         {
           "name": "fetch_all_records",
@@ -321,7 +322,7 @@
           "editable": true,
           "visible": true,
           "required": false,
-          "tooltip": "Select this option to retrieve all records from collection.",
+          "tooltip": "(Optional) Select this option to retrieve all records from the specified collection.",
           "description": "(Optional) Select this option to retrieve all records from the specified collection."
         },
         {
@@ -331,8 +332,8 @@
           "required": false,
           "editable": true,
           "type": "json",
-          "tooltip": "Optional headers. If provided, these will override the headers provided in configuration.",
-          "description": "Specify custom headers for the request. When provided, these will override the headers provided in configuration."
+          "tooltip": "(Optional) Specify custom headers for the request. If provided, these will override any headers set in the configuration.",
+          "description": "(Optional) Specify custom headers for the request. If provided, these will override any headers set in the configuration."
         }
       ],
       "enabled": true
