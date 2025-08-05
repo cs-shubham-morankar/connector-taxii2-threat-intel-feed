@@ -107,21 +107,10 @@ class TAXIIFeed(object):
         api_root = self.make_request(endpoint=endpoint, headers=headers)
         logger.debug("First Response: {0}".format(api_root))
         try:
-            resp = api_root.get('api_roots', [])[0]
-            if resp.startswith(('https://', 'http://')):
-                return ''
+            resp = api_root['api_roots'][0]
             return resp
         except:
-            pass  # Try fallback
-
-        try:
-            resp = api_root.get('default')
-            if resp.startswith(('https://', 'http://')):
-                return ''
-        except:
-            pass
-
-        return 'taxii2/'
+            return 'taxii2/'
 
 
 def get_params(params):
