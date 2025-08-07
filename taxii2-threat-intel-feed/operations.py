@@ -63,12 +63,6 @@ class TAXIIFeed(object):
         try:
             endpoint = self.server_url + endpoint
             headers = {**self.headers, **headers} if headers is not None and headers != '' else self.headers
-            # CURL UTILS CODE
-            try:
-                from connectors.debug_utils.curl_script import make_curl
-                make_curl(method, endpoint, headers=headers, params=params, data=data, verify_ssl=self.verify_ssl)
-            except Exception as err:
-                logger.debug(f"Error in curl utils: {str(err)}")
             retry = 0
             while retry < MAX_RETRY:
                 response = requests.request(method,
@@ -106,11 +100,8 @@ class TAXIIFeed(object):
                                   'Accept': 'application/taxii+json;version=2.1'}
         api_root = self.make_request(endpoint=endpoint, headers=headers)
         logger.debug("First Response: {0}".format(api_root))
-        try:
-            resp = api_root['api_roots'][0]
-            return resp
-        except:
-            return 'taxii2/'
+        if api_root:
+            return api_root
 
 
 def get_params(params):
@@ -156,18 +147,18 @@ def get_output_schema(config, params, **kwargs):
 
 def get_collections(config, params, **kwargs):
     taxii = TAXIIFeed(config)
+    endpoint = ''
     custom_headers = params.pop('headers', '') or taxii.custom_headers
-    api_root = taxii.get_api_root_information(endpoint='taxii2/', headers=custom_headers, **kwargs)
     headers = custom_headers or {'Content-Type': 'taxii+json;version=2.1',
                                  'Accept': 'application/taxii+json;version=2.1'}
-    response_headers = taxii.make_request(endpoint=api_root, headers=headers, api_info='api_root_info')
+    response_headers = taxii.make_request(endpoint=endpoint, headers=headers, api_info='api_root_info')
     headers = {'Accept': response_headers['Content-Type']}
     params = {k: v for k, v in params.items() if v is not None and v != ''}
     if params:
-        response = taxii.make_request(endpoint=api_root + 'collections/' + str(params['collectionID']) + '/',
+        response = taxii.make_request(endpoint=endpoint + 'collections/' + str(params['collectionID']) + '/',
                                       headers=headers)
     else:
-        response = taxii.make_request(endpoint=api_root + 'collections/', headers=headers)
+        response = taxii.make_request(endpoint=endpoint + 'collections/', headers=headers)
         logger.debug("Response: {0}".format(response))
     if response.get('collections'):
         return response
@@ -178,24 +169,24 @@ def get_collections(config, params, **kwargs):
 def get_objects_by_collection_id(config, params, **kwargs):
     taxii = TAXIIFeed(config)
     custom_headers = params.pop('headers', '') or taxii.custom_headers
-    api_root = taxii.get_api_root_information(endpoint='taxii2/', headers=custom_headers, **kwargs)
+    endpoint = ''
     headers = custom_headers or {'Content-Type': 'taxii+json;version=2.1',
                                  'Accept': 'application/taxii+json;version=2.1'}
-    response_headers = taxii.make_request(endpoint=api_root, headers=headers, api_info='api_root_info')
+    response_headers = taxii.make_request(endpoint=endpoint, headers=headers, api_info='api_root_info')
     headers = {'Accept': response_headers['Content-Type']}
     params = get_params(params)
     wanted_keys = set(['added_after'])
     mode = params.get('output_mode')
     query_params = {k: params[k] for k in params.keys() & wanted_keys}
     try:
-        response = taxii.make_request(endpoint=api_root + 'collections/' + str(params['collectionID']) + '/objects/',
+        response = taxii.make_request(endpoint=endpoint + 'collections/' + str(params['collectionID']) + '/objects/',
                                       params=query_params, headers=headers)
         if params.get('fetch_all_records'):
             result = response
             next_key = response.get('next')
             while next_key:
                 response = taxii.make_request(
-                    endpoint=api_root + 'collections/' + str(params['collectionID']) + '/objects/' + '?next={}'.format(
+                    endpoint=endpoint + 'collections/' + str(params['collectionID']) + '/objects/' + '?next={}'.format(
                         next_key),
                     params=query_params, headers=headers)
                 result['objects'].extend(response.get('objects'))
@@ -230,8 +221,8 @@ def download_indicators(config, params, **kwargs):
     config_id = config.get('config_id')
 
     # Get API root endpoint and collection IDs
+    endpoint = ''
     custom_headers = params.pop('headers', '') or taxii.custom_headers
-    api_root = taxii.get_api_root_information(endpoint='taxii2/', headers=custom_headers, **kwargs)
     collections_response = get_collections(config, params={'headers': custom_headers}, **kwargs)
 
     if collections_response.get("collections"):
@@ -244,14 +235,14 @@ def download_indicators(config, params, **kwargs):
     # Prepare headers for TAXII requests
     headers = custom_headers or {'Content-Type': 'taxii+json;version=2.1',
                                  'Accept': 'application/taxii+json;version=2.1'}
-    response_headers = taxii.make_request(endpoint=api_root, headers=headers, api_info='api_root_info')
+    response_headers = taxii.make_request(endpoint=endpoint, headers=headers, api_info='api_root_info')
 
     # Extract query parameters
     params = get_params(params)
     query_params = {k: params[k] for k in ['added_after'] if k in params}
     if collection_ids:
         for collection_id in collection_ids:
-            endpoint = f"{api_root}collections/{collection_id}/objects"
+            endpoint = f"collections/{collection_id}/objects"
             response = taxii.make_request(endpoint=endpoint, params=query_params, headers=headers)
             objects = response.get("objects", [])
 
@@ -296,7 +287,8 @@ def download_indicators(config, params, **kwargs):
 def _check_health(config, **kwargs):
     try:
         taxii = TAXIIFeed(config)
-        res = taxii.get_api_root_information(endpoint='taxii2/', headers=taxii.custom_headers, health_check=True,
+        endpoint = ''
+        res = taxii.get_api_root_information(endpoint=endpoint, headers=taxii.custom_headers, health_check=True,
                                              **kwargs)
         if res:
             logger.info('connector available')

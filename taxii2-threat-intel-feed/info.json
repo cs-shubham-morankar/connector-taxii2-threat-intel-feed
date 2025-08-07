@@ -5,7 +5,7 @@
   "publisher": "Fortinet",
   "cs_approved": true,
   "cs_compatible": true,
-  "version": "1.2.0",
+  "version": "1.2.1",
   "category": "Threat Intelligence",
   "icon_small_name": "small.png",
   "icon_large_name": "large.png",
@@ -17,7 +17,7 @@
     "ThreatIntel",
     "ThreatFeedsIngestion"
   ],
-  "help_online": "https://docs.fortinet.com/document/fortisoar/1.2.0/taxii2-threat-intel-feed/1754383817/taxii2-threat-intel-feed-v1-2-0",
+  "help_online": "",
   "ingestion_config_schema": [
     {
       "title": "Ingestion Begin From",

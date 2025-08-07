@@ -1,3 +1,3 @@
-#### The following enhancements have been made to the TAXII2 Threat Intel Feed connector in version 1.2.0:
+#### The following enhancements have been made to the TAXII2 Threat Intel Feed connector in version 1.2.1:
 
-- Added the `Download Indicators` operation for future use. Currently, it is not operational in FortiSOAR.
+- The issue has been resolved in the connector code to support all client-server URLs.

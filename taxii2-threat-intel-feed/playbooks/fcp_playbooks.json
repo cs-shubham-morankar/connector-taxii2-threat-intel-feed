@@ -7,7 +7,7 @@
       "createDate": "2025-06-10T14:25:29.834135Z",
       "modifyDate": "2025-06-10T14:25:29.873557Z",
       "deletedAt": null,
-      "name": "Sample - TAXII2 Threat Intel Feed - 1.2.0",
+      "name": "Sample - TAXII2 Threat Intel Feed - 1.2.1",
       "description": "Sample playbooks for \"TAXII2 Threat Intel Feed\" connector. If you are planning to use any of the sample playbooks in your environment, ensure that you clone those playbooks and move them to a different collection, since the sample playbook collection gets deleted during connector upgrade and delete.",
       "visible": true,
       "image": null,
@@ -95,7 +95,7 @@
                   "added_after": "{{ vars.ingestion_last_pull_datetime }}",
                   "fetch_all_records": false
                 },
-                "version": "1.2.0",
+                "version": "1.2.1",
                 "connector": "taxii2-threat-intel-feed",
                 "operation": "download_indicators",
                 "pickFromTenant": false
@@ -162,7 +162,7 @@
             "createDate": "2025-06-10T14:25:29.834135Z",
             "modifyDate": "2025-06-10T14:25:29.873557Z",
             "deletedAt": null,
-            "name": "Sample - TAXII2 Threat Intel Feed - 1.2.0",
+            "name": "Sample - TAXII2 Threat Intel Feed - 1.2.1",
             "description": "Sample playbooks for \"TAXII2 Threat Intel Feed\" connector. If you are planning to use any of the sample playbooks in your environment, ensure that you clone those playbooks and move them to a different collection, since the sample playbook collection gets deleted during connector upgrade and delete.",
             "visible": true,
             "image": null,
