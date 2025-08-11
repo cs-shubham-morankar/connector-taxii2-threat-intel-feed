@@ -1,7 +1,7 @@
 {
   "name": "taxii2-threat-intel-feed",
-  "label": "TAXII2 Threat Intel Feed",
-  "description": "TAXII2 Threat Intelligence Feed is a preconfigured set of intelligence feeds that STAXX users can access immediately upon download, and which offers indicators and insights spanning threat categories you need to secure your business. This connector facilitates automated interactions, such as returning the list of public, private, and shared collection resources to which the user has access, returning general information for a specific object of a specific collection, etc. <br/><br/>This connector has a dependency on the <a href=\\\"/content-hub/all-content/?contentType=solutionpack&amp;tag=ThreatIntelManagement\\\" target=\\\"_blank\\\" rel=\\\"noopener\\\">Threat Intel Management Solution Pack</a>. Install the Solution Pack before enabling ingestion of Threat Feeds from this source.",
+  "label": "TAXII Threat Intel Feed",
+  "description": "TAXII Threat Intelligence Feed is a preconfigured set of intelligence feeds that STAXX users can access immediately upon download, and which offers indicators and insights spanning threat categories you need to secure your business. This connector facilitates automated interactions, such as returning the list of public, private, and shared collection resources to which the user has access, returning general information for a specific object of a specific collection, etc. <br/><br/>This connector has a dependency on the <a href=\"/content-hub/all-content/?contentType=solutionpack&amp;tag=ThreatIntelManagement\" target=\"_blank\" rel=\"noopener\">Threat Intel Management Solution Pack</a>. Install the Solution Pack before enabling ingestion of Threat Feeds from this source.",
   "publisher": "Fortinet",
   "cs_approved": true,
   "cs_compatible": true,
@@ -89,7 +89,7 @@
   "ingest_mapping_template": {
     "tlp": "{% if vars.tlp %}{{ vars.tlp }}{% endif %}",
     "value": "{{vars.pattern.split('= ')[-1].strip().replace(\" \",\"\")[1:-2]}}",
-    "source": "TAXII2 Threat Intel Feed",
+    "source": "TAXII Threat Intel Feed",
     "pattern": "{{ vars.pattern }}",
     "created_on": "{% if vars.created %}{{epoch_to_datetime(arrow.get(vars.created).int_timestamp + (vars.created | int)*24*60*60)}}{% else %}{{ epoch_to_datetime(arrow.utcnow().int_timestamp) }}{% endif %}",
     "modified_on": "{% if vars.modified %}{{epoch_to_datetime(arrow.get(vars.modified).int_timestamp + (vars.modified | int)*24*60*60)}}{% else %}{{ epoch_to_datetime(arrow.utcnow().int_timestamp) }}{% endif %}",
@@ -102,7 +102,7 @@
     "reputation": "{% if vars.reputation %}{{ vars.reputation }}{% endif %}",
     "sourceData": "{{ vars | toJSON}}",
     "type_of_feed": "{% if vars.pattern %}{{ vars.pattern.split(\" =\")[0].strip()[1:].replace(\":\", \"-\").replace(\".\", \"-\").replace(\"'\", \"\").replace(\" \", \"\") }}{% else %}None{% endif %}",
-    "description": "{% if vars.description %}{{ vars.description }}{% else %} Threat Indicator from TAXII2 Threat Intel for pattern: {{ vars.pattern }}{% endif %}"
+    "description": "{% if vars.description %}{{ vars.description }}{% else %} Threat Indicator from TAXII Threat Intel for pattern: {{ vars.pattern }}{% endif %}"
   },
   "configuration": {
     "fields": [
@@ -114,7 +114,7 @@
         "type": "text",
         "name": "server_url",
         "placeholder": "https://api.xforce.ibmcloud.com/api/",
-        "description": "The server URL of the TAXII2 Threat Intelligence Feed server to connect and retrieve data."
+        "description": "The server URL of the TAXII Threat Intelligence Feed server to connect and retrieve data."
       },
       {
         "title": "Username/API Key",
@@ -123,7 +123,7 @@
         "visible": true,
         "type": "text",
         "name": "username",
-        "description": "The Username/API Key that is configured for your account to access the TAXII2 Threat Intelligence Feed APIs."
+        "description": "The Username/API Key that is configured for your account to access the TAXII Threat Intelligence Feed APIs."
       },
       {
         "title": "Password/API Password",
@@ -132,7 +132,7 @@
         "visible": true,
         "type": "password",
         "name": "password",
-        "description": "The Password/API Password that is configured for your account to access the TAXII2 Threat Intelligence Feed APIs."
+        "description": "The Password/API Password that is configured for your account to access the TAXII Threat Intelligence Feed APIs."
       },
       {
         "title": "Headers",
@@ -160,7 +160,7 @@
     {
       "operation": "get_collections",
       "title": "Get Collections",
-      "description": "Retrieves a list of public, private, or shared collection resources from TAXII2 Threat Intelligence Feed based on the collection ID you have specified.",
+      "description": "Retrieves a list of public, private, or shared collection resources from TAXII Threat Intelligence Feed based on the collection ID you have specified.",
       "category": "investigation",
       "annotation": "get_collections",
       "output_schema": {
@@ -182,8 +182,8 @@
           "required": false,
           "editable": true,
           "type": "text",
-          "tooltip": "The ID of the collection whose general information you want to retrieve from TAXII2 Threat Intelligence Feed",
-          "description": "(Optional) Specify the ID of the collection whose general information, such as ID, Title, Description, Can Read, Can Write, and Media Types you want to retrieve from TAXII2 Threat Intelligence Feed. "
+          "tooltip": "The ID of the collection whose general information you want to retrieve from TAXII Threat Intelligence Feed",
+          "description": "(Optional) Specify the ID of the collection whose general information, such as ID, Title, Description, Can Read, Can Write, and Media Types you want to retrieve from TAXII Threat Intelligence Feed. "
         },
         {
           "title": "Headers",
@@ -201,7 +201,7 @@
     {
       "operation": "get_objects_by_collection_id",
       "title": "Fetch Indicators",
-      "description": "Retrieves all available objects of a specific collection from TAXII2 Threat Intel Feed based on the collection ID and other input parameters you have specified",
+      "description": "Retrieves all available objects of a specific collection from TAXII Threat Intel Feed based on the collection ID and other input parameters you have specified",
       "category": "investigation",
       "annotation": "get_objects_by_collection_id",
       "api_output_schema": "get_output_schema",
@@ -214,8 +214,8 @@
           "required": true,
           "editable": true,
           "type": "text",
-          "tooltip": "The ID of the collection whose general information such as ID, title, description, can_read, can_write, and media_types you want to retrieve from TAXII2 Threat Intel Feed",
-          "description": "Specify the ID of the collection whose general information, such as ID, Title, Description, Can Read, Can Write, and Media Types you want to retrieve from TAXII2 Threat Intelligence Feed."
+          "tooltip": "The ID of the collection whose general information such as ID, title, description, can_read, can_write, and media_types you want to retrieve from TAXII Threat Intel Feed",
+          "description": "Specify the ID of the collection whose general information, such as ID, Title, Description, Can Read, Can Write, and Media Types you want to retrieve from TAXII Threat Intelligence Feed."
         },
         {
           "title": "Created After",
@@ -296,7 +296,7 @@
     {
       "operation": "download_indicators",
       "title": "Download Indicators",
-      "description": "Retrieves all available objects from a collection to which the users have access from TAXII2 Threat Intel Feed, based on the input parameters you have specified. Note: This action is currently not supported in FortiSOAR.",
+      "description": "Retrieves all available objects from a collection to which the users have access from TAXII Threat Intel Feed, based on the input parameters you have specified. Note: This action is currently not supported in FortiSOAR.",
       "category": "investigation",
       "annotation": "download_indicators",
       "output_schema": {
@@ -306,13 +306,13 @@
       "parameters": [
         {
           "title": "Last Pull Time",
-          "description": "(Optional) Specify the DateTime the feeds were last pulled from TAXII2 Threat Intel Feed. In this case, data will only be returned if the feed has been refreshed after the specified time.",
+          "description": "(Optional) Specify the DateTime the feeds were last pulled from TAXII Threat Intel Feed. In this case, data will only be returned if the feed has been refreshed after the specified time.",
           "type": "datetime",
           "name": "added_after",
           "required": false,
           "editable": true,
           "visible": true,
-          "tooltip": "(Optional) Specify the DateTime the feeds were last pulled from TAXII2 Threat Intel Feed. In this case, data will only be returned if the feed has been refreshed after the specified time."
+          "tooltip": "(Optional) Specify the DateTime the feeds were last pulled from TAXII Threat Intel Feed. In this case, data will only be returned if the feed has been refreshed after the specified time."
         },
         {
           "name": "fetch_all_records",
