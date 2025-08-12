@@ -3,8 +3,8 @@
   "data": [
     {
       "@type": "WorkflowCollection",
-      "name": "Sample - TAXII2 Threat Intel Feed - 1.2.1",
-      "description": "Sample playbooks for \"TAXII2 Threat Intel Feed\" connector. If you are planning to use any of the sample playbooks in your environment, ensure that you clone those playbooks and move them to a different collection, since the sample playbook collection gets deleted during connector upgrade and delete.",
+      "name": "Sample - TAXII Threat Intel Feed - 1.2.1",
+      "description": "Sample playbooks for \"TAXII Threat Intel Feed\" connector. If you are planning to use any of the sample playbooks in your environment, ensure that you clone those playbooks and move them to a different collection, since the sample playbook collection gets deleted during connector upgrade and delete.",
       "visible": true,
       "image": null,
       "uuid": "0820fcd2-3424-4b4b-aae8-f7ac9b9463a9",
@@ -18,8 +18,8 @@
           "triggerLimit": null,
           "name": "Fetch Indicators",
           "aliasName": null,
-          "tag": "#TAXII2 Threat Intel Feed",
-          "description": "Retrieves all available objects of a specific collection from TAXII2 Threat Intel Feed based on the collection ID and other input parameters you have specified",
+          "tag": "#TAXII Threat Intel Feed",
+          "description": "Retrieves all available objects of a specific collection from TAXII Threat Intel Feed based on the collection ID and other input parameters you have specified",
           "isActive": false,
           "debug": false,
           "singleRecordExecution": false,
@@ -37,7 +37,7 @@
               "description": null,
               "arguments": {
                 "route": "63647c21-38f7-4c46-950b-6bac09702bef",
-                "title": "TAXII2 Threat Intel Feed: Fetch Indicators",
+                "title": "TAXII Threat Intel Feed: Fetch Indicators",
                 "resources": [
                   "alerts"
                 ],
@@ -62,7 +62,7 @@
               "name": "Fetch Indicators",
               "description": null,
               "arguments": {
-                "name": "TAXII2 Threat Intel Feed",
+                "name": "TAXII Threat Intel Feed",
                 "config": "a5a78d61-591c-4a8e-9a1d-f002313b4a14",
                 "params": {
                   "limit": "",
@@ -113,10 +113,10 @@
         {
           "@type": "Workflow",
           "triggerLimit": null,
-          "name": "> TAXII2 > Fetch and Create",
+          "name": "> TAXII > Fetch and Create",
           "aliasName": null,
-          "tag": "#TAXII2 Threat Intel Feed",
-          "description": "Fetch and Create Indicators from TAXII2 Indicators Objects",
+          "tag": "#TAXII Threat Intel Feed",
+          "description": "Fetch and Create Indicators from TAXII Indicators Objects",
           "isActive": false,
           "debug": false,
           "singleRecordExecution": false,
@@ -340,8 +340,8 @@
           "triggerLimit": null,
           "name": "Get Collections",
           "aliasName": null,
-          "tag": "#TAXII2 Threat Intel Feed",
-          "description": "Retrieves a list of public/private/shared collection resources to which the users have access from TAXII2 Threat Intelligence Feed, based on the collection ID you have specified.",
+          "tag": "#TAXII Threat Intel Feed",
+          "description": "Retrieves a list of public/private/shared collection resources to which the users have access from TAXII Threat Intelligence Feed, based on the collection ID you have specified.",
           "isActive": false,
           "debug": false,
           "singleRecordExecution": false,
@@ -359,7 +359,7 @@
               "description": null,
               "arguments": {
                 "route": "9379e8e1-5549-4645-abbf-d411ecd1a2a2",
-                "title": "TAXII2 Threat Intel Feed: Get Collections",
+                "title": "TAXII Threat Intel Feed: Get Collections",
                 "resources": [
                   "alerts"
                 ],
@@ -384,7 +384,7 @@
               "name": "Get Collection",
               "description": null,
               "arguments": {
-                "name": "TAXII2 Threat Intel Feed",
+                "name": "TAXII Threat Intel Feed",
                 "config": "a5a78d61-591c-4a8e-9a1d-f002313b4a14",
                 "params": [],
                 "version": "1.2.1",
@@ -429,10 +429,10 @@
         {
           "@type": "Workflow",
           "triggerLimit": null,
-          "name": "TAXII2 > Ingest",
+          "name": "TAXII > Ingest",
           "aliasName": null,
-          "tag": "#TAXII2 Threat Intel Feed",
-          "description": "Fetch Collections from Taxii2",
+          "tag": "#TAXII Threat Intel Feed",
+          "description": "Fetch Collections from Taxii",
           "isActive": false,
           "debug": false,
           "singleRecordExecution": false,
@@ -478,7 +478,7 @@
               "name": "Fetch and Create",
               "description": null,
               "arguments": {
-                "name": "TAXII2 Threat Intel Feed",
+                "name": "TAXII Threat Intel Feed",
                 "config": "a5a78d61-591c-4a8e-9a1d-f002313b4a14",
                 "params": {
                   "added_after": "",
@@ -510,7 +510,7 @@
               "name": "Get All Collections",
               "description": null,
               "arguments": {
-                "name": "TAXII2 Threat Intel Feed",
+                "name": "TAXII Threat Intel Feed",
                 "config": "a5a78d61-591c-4a8e-9a1d-f002313b4a14",
                 "params": [],
                 "version": "1.2.1",

@@ -7,8 +7,8 @@
       "createDate": "2025-06-10T14:25:29.834135Z",
       "modifyDate": "2025-06-10T14:25:29.873557Z",
       "deletedAt": null,
-      "name": "Sample - TAXII2 Threat Intel Feed - 1.2.1",
-      "description": "Sample playbooks for \"TAXII2 Threat Intel Feed\" connector. If you are planning to use any of the sample playbooks in your environment, ensure that you clone those playbooks and move them to a different collection, since the sample playbook collection gets deleted during connector upgrade and delete.",
+      "name": "Sample - TAXII Threat Intel Feed - 1.2.1",
+      "description": "Sample playbooks for \"TAXII Threat Intel Feed\" connector. If you are planning to use any of the sample playbooks in your environment, ensure that you clone those playbooks and move them to a different collection, since the sample playbook collection gets deleted during connector upgrade and delete.",
       "visible": true,
       "image": null,
       "importedBy": {},
@@ -20,7 +20,7 @@
         {
           "@id": "/api/workflow/playbooks/7c513e30-7e88-4fcd-ad7f-ebe70673e6c4/",
           "uuid": "7c513e30-7e88-4fcd-ad7f-ebe70673e6c4",
-          "name": "TAXII2 Threat Intel Feed Ingestion",
+          "name": "TAXII Threat Intel Feed Ingestion",
           "createDate": "2025-06-10T14:25:29.856785Z",
           "modifyDate": "2025-06-11T05:51:05.923403Z",
           "priority": "medium",
@@ -88,7 +88,7 @@
               "name": "Download Indicators",
               "description": null,
               "arguments": {
-                "name": "TAXII2 Threat Intel Feed",
+                "name": "TAXII Threat Intel Feed",
                 "config": "{{ vars.ingestion_config_id }}",
                 "params": {
                   "headers": "",
@@ -144,7 +144,7 @@
             "dataingestion",
             "fcp"
           ],
-          "description": "This playbook will fetch the indicators from TAXII2 Threat Intel Feed and ingest in threat intel service",
+          "description": "This playbook will fetch the indicators from TAXII Threat Intel Feed and ingest in threat intel service",
           "isActive": false,
           "debug": true,
           "singleRecordExecution": false,
@@ -162,8 +162,8 @@
             "createDate": "2025-06-10T14:25:29.834135Z",
             "modifyDate": "2025-06-10T14:25:29.873557Z",
             "deletedAt": null,
-            "name": "Sample - TAXII2 Threat Intel Feed - 1.2.1",
-            "description": "Sample playbooks for \"TAXII2 Threat Intel Feed\" connector. If you are planning to use any of the sample playbooks in your environment, ensure that you clone those playbooks and move them to a different collection, since the sample playbook collection gets deleted during connector upgrade and delete.",
+            "name": "Sample - TAXII Threat Intel Feed - 1.2.1",
+            "description": "Sample playbooks for \"TAXII Threat Intel Feed\" connector. If you are planning to use any of the sample playbooks in your environment, ensure that you clone those playbooks and move them to a different collection, since the sample playbook collection gets deleted during connector upgrade and delete.",
             "visible": true,
             "image": null,
             "importedBy": {},
