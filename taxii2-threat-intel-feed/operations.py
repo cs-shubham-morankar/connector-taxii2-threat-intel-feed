@@ -212,6 +212,38 @@ def get_objects_by_collection_id(config, params, **kwargs):
         return deduped_indicators
 
 
+def get_objects(config, params, **kwargs):
+    taxii = TAXIIFeed(config)
+    custom_headers = params.pop('headers', '') or taxii.custom_headers
+    endpoint = ''
+    headers = custom_headers or {'Content-Type': 'taxii+json;version=2.1',
+                                 'Accept': 'application/taxii+json;version=2.1'}
+    response_headers = taxii.make_request(endpoint=endpoint, headers=headers, api_info='api_root_info')
+    headers = {'Accept': response_headers['Content-Type']}
+    params = get_params(params)
+    wanted_keys = set(['added_after'])
+    query_params = {k: params[k] for k in params.keys() & wanted_keys}
+    try:
+        response = taxii.make_request(endpoint=endpoint + 'collections/' + str(params['collectionID']) + '/objects/',
+                                      params=query_params, headers=headers)
+        if params.get('fetch_all_records'):
+            result = response
+            next_key = response.get('next')
+            while next_key:
+                response = taxii.make_request(
+                    endpoint=endpoint + 'collections/' + str(params['collectionID']) + '/objects/' + '?next={}'.format(
+                        next_key),
+                    params=query_params, headers=headers)
+                result['objects'].extend(response.get('objects'))
+                next_key = response.get('next')
+            response = result.get("objects", [])
+        else:
+            response = response.get("objects", [])
+        return response
+    except Exception as e:
+        raise ConnectorError(str(e))
+
+
 def download_indicators(config, params, **kwargs):
     all_indicators = []
     collection_ids = []
@@ -301,6 +333,7 @@ def _check_health(config, **kwargs):
 operations = {
     'get_collections': get_collections,
     'get_objects_by_collection_id': get_objects_by_collection_id,
+    'get_objects': get_objects,
     'download_indicators': download_indicators,
     'get_output_schema': get_output_schema
 }

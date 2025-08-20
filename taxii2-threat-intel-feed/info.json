@@ -295,6 +295,58 @@
       "enabled": true
     },
     {
+      "operation": "get_objects",
+      "title": "Get Objects",
+      "description": "Retrieves all available objects of a specific collection from TAXII Threat Intel Feed based on the collection ID and other input parameters you have specified",
+      "category": "investigation",
+      "annotation": "get_objects",
+      "api_output_schema": "get_output_schema",
+      "output_schema": {},
+      "parameters": [
+        {
+          "title": "Collection ID",
+          "name": "collectionID",
+          "visible": true,
+          "required": true,
+          "editable": true,
+          "type": "text",
+          "tooltip": "The ID of the collection whose general information such as ID, title, description, can_read, can_write, and media_types you want to retrieve from TAXII Threat Intel Feed",
+          "description": "Specify the ID of the collection whose general information, such as ID, Title, Description, Can Read, Can Write, and Media Types you want to retrieve from TAXII Threat Intelligence Feed."
+        },
+        {
+          "title": "Created After",
+          "name": "added_after",
+          "visible": true,
+          "required": false,
+          "editable": true,
+          "type": "datetime",
+          "tooltip": "The Datetime using which you want to filter the result set to only include only those items that have been created after the specified time",
+          "description": "Select the date and time to filter the result set to include items that were created after the selected time."
+        },
+        {
+          "name": "fetch_all_records",
+          "title": "Fetch All Records",
+          "type": "checkbox",
+          "editable": true,
+          "visible": true,
+          "required": false,
+          "tooltip": "Select this option to retrieve all records from collection.",
+          "description": "(Optional) Select this option to retrieve all records from the specified collection."
+        },
+        {
+          "title": "Headers",
+          "name": "headers",
+          "visible": true,
+          "required": false,
+          "editable": true,
+          "type": "json",
+          "tooltip": "Optional headers. If provided, these will override the headers provided in configuration.",
+          "description": "(Optional) Specify custom headers for the request to override the headers provided in configuration. To use the headers specified in configuration, leave the field blank. "
+        }
+      ],
+      "enabled": true
+    },
+    {
       "operation": "download_indicators",
       "title": "Download Indicators",
       "description": "Retrieves all available objects from a collection to which the users have access from TAXII Threat Intel Feed, based on the input parameters you have specified. Note: This action is currently not supported in FortiSOAR.",

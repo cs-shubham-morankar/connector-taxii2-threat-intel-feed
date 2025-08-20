@@ -8,7 +8,7 @@
       "visible": true,
       "image": null,
       "uuid": "0820fcd2-3424-4b4b-aae8-f7ac9b9463a9",
-      "id": 286,
+      "id": 302,
       "deletedAt": null,
       "importedBy": [],
       "recordTags": [
@@ -28,7 +28,7 @@
           "remoteExecutableFlag": false,
           "parameters": [],
           "synchronous": false,
-          "lastModifyDate": 1755602156,
+          "lastModifyDate": 1755706281,
           "collection": "/api/3/workflow_collections/0820fcd2-3424-4b4b-aae8-f7ac9b9463a9",
           "versions": [],
           "triggerStep": "/api/3/workflow_steps/fa821678-c749-4932-835f-0aeb4364ddfb",
@@ -72,7 +72,7 @@
                   "headers": "",
                   "added_after": "",
                   "output_mode": "Return as a JSON",
-                  "collectionID": "56b3f307-2e05-dab7-6987-bfcd3ba18fea",
+                  "collectionID": "df3d706d-aaf1-4459-a805-c961c9f9b9f2",
                   "fetch_all_records": ""
                 },
                 "version": "1.2.1",
@@ -107,7 +107,7 @@
           "playbookOrigin": "/api/3/picklists/15c1e8c9-22bf-4e66-8fbb-0a502d4a4a3f",
           "isEditable": true,
           "uuid": "20064d48-c19e-400f-9ec8-209699f6b345",
-          "id": 4204,
+          "id": 4307,
           "owners": [],
           "isPrivate": false,
           "deletedAt": null,
@@ -335,7 +335,7 @@
           "playbookOrigin": "/api/3/picklists/15c1e8c9-22bf-4e66-8fbb-0a502d4a4a3f",
           "isEditable": true,
           "uuid": "36560d71-5aa0-4c35-b001-d2dc5086aac1",
-          "id": 4205,
+          "id": 4308,
           "owners": [],
           "isPrivate": false,
           "deletedAt": null,
@@ -344,6 +344,113 @@
             "create",
             "dataingestion",
             "fetch",
+            "taxii2-threat-intel-feed"
+          ]
+        },
+        {
+          "@type": "Workflow",
+          "triggerLimit": null,
+          "name": "Get Objects",
+          "aliasName": null,
+          "tag": null,
+          "description": "Retrieves all available objects of a specific collection from TAXII Threat Intel Feed based on the collection ID and other input parameters you have specified.",
+          "isActive": false,
+          "debug": false,
+          "singleRecordExecution": false,
+          "remoteExecutableFlag": false,
+          "parameters": [],
+          "synchronous": false,
+          "lastModifyDate": 1755706394,
+          "collection": "/api/3/workflow_collections/0820fcd2-3424-4b4b-aae8-f7ac9b9463a9",
+          "versions": [],
+          "triggerStep": "/api/3/workflow_steps/30db889d-9c84-4343-ac00-08e8baf12376",
+          "steps": [
+            {
+              "@type": "WorkflowStep",
+              "name": "Get Objects",
+              "description": null,
+              "arguments": {
+                "name": "TAXII Threat Intel Feed",
+                "config": "934f7bb4-1e34-455a-9e89-d761e6ab80c8",
+                "params": {
+                  "headers": "",
+                  "added_after": "",
+                  "collectionID": "df3d706d-aaf1-4459-a805-c961c9f9b9f2",
+                  "fetch_all_records": ""
+                },
+                "version": "1.2.1",
+                "connector": "taxii2-threat-intel-feed",
+                "operation": "get_objects",
+                "operationTitle": "Get Objects",
+                "pickFromTenant": false,
+                "step_variables": []
+              },
+              "status": null,
+              "top": "165",
+              "left": "125",
+              "stepType": "/api/3/workflow_step_types/0bfed618-0316-11e7-93ae-92361f002671",
+              "group": null,
+              "uuid": "39d1ac49-b5f0-4c2b-99b2-be7a10f1e8d9"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Start",
+              "description": null,
+              "arguments": {
+                "route": "4867ab3a-5a8b-43e1-ab33-846eb694add4",
+                "title": "TAXII Threat Intel Feed: Get Objects",
+                "resources": [
+                  "alerts"
+                ],
+                "__triggerLimit": true,
+                "inputVariables": [],
+                "step_variables": {
+                  "input": {
+                    "params": [],
+                    "records": "{{vars.input.records}}"
+                  }
+                },
+                "triggerOnSource": true,
+                "executeButtonText": "Execute",
+                "noRecordExecution": true,
+                "showToasterMessage": {
+                  "visible": false,
+                  "messageVisible": true
+                },
+                "triggerOnReplicate": false,
+                "singleRecordExecution": false
+              },
+              "status": null,
+              "top": "30",
+              "left": "125",
+              "stepType": "/api/3/workflow_step_types/f414d039-bb0d-4e59-9c39-a8f1e880b18a",
+              "group": null,
+              "uuid": "30db889d-9c84-4343-ac00-08e8baf12376"
+            }
+          ],
+          "routes": [
+            {
+              "@type": "WorkflowRoute",
+              "name": "Start -> Get Objects",
+              "targetStep": "/api/3/workflow_steps/39d1ac49-b5f0-4c2b-99b2-be7a10f1e8d9",
+              "sourceStep": "/api/3/workflow_steps/30db889d-9c84-4343-ac00-08e8baf12376",
+              "label": null,
+              "isExecuted": false,
+              "group": null,
+              "uuid": "8a77ae40-882a-4f5c-a07d-96ac8dc52236"
+            }
+          ],
+          "groups": [],
+          "priority": "/api/3/picklists/2b563c61-ae2c-41c0-a85a-c9709585e3f2",
+          "playbookOrigin": "/api/3/picklists/15c1e8c9-22bf-4e66-8fbb-0a502d4a4a3f",
+          "isEditable": true,
+          "uuid": "4f6c0f1f-2f6f-422d-93be-c1b933f82f77",
+          "id": 4311,
+          "owners": [],
+          "isPrivate": false,
+          "deletedAt": null,
+          "importedBy": [],
+          "recordTags": [
             "taxii2-threat-intel-feed"
           ]
         },
@@ -431,7 +538,7 @@
           "playbookOrigin": "/api/3/picklists/15c1e8c9-22bf-4e66-8fbb-0a502d4a4a3f",
           "isEditable": true,
           "uuid": "b8f76bb3-378c-454f-9216-752130be80d7",
-          "id": 4206,
+          "id": 4309,
           "owners": [],
           "isPrivate": false,
           "deletedAt": null,
@@ -676,7 +783,7 @@
           "playbookOrigin": "/api/3/picklists/15c1e8c9-22bf-4e66-8fbb-0a502d4a4a3f",
           "isEditable": true,
           "uuid": "bbb4c328-26e3-4117-90cf-69b713a2acaa",
-          "id": 4207,
+          "id": 4310,
           "owners": [],
           "isPrivate": false,
           "deletedAt": null,
