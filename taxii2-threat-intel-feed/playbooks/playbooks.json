@@ -132,7 +132,7 @@
             "lastPullTime"
           ],
           "synchronous": false,
-          "lastModifyDate": 1755672345,
+          "lastModifyDate": 1755683899,
           "collection": "/api/3/workflow_collections/0820fcd2-3424-4b4b-aae8-f7ac9b9463a9",
           "versions": [],
           "triggerStep": "/api/3/workflow_steps/95dcb8c0-52fb-4af8-9843-39b4cb407d29",
@@ -148,6 +148,7 @@
                 "confidence": "50",
                 "reputation": "Suspicious",
                 "reputation_map": "{'Good': {{'IndicatorReputation'| picklist('Good') }}, 'Malicious': {{'IndicatorReputation'| picklist('Malicious') }}, 'High': {{'IndicatorReputation'| picklist('Malicious') }}, 'Suspicious': {{'IndicatorReputation'| picklist('Suspicious') }}, 'TBD': {{'IndicatorReputation'| picklist('TBD') }}, 'No Reputation Available': {{'IndicatorReputation'| picklist('No Reputation Available') }}}",
+                "killChainPhases_map": "{\n  \"reconnaissance\": \"{{'KillChainPhases' | picklist('Reconnaissance', 'uuid')}}\",\n  \"weaponization\": \"{{'KillChainPhases' | picklist('Weaponization', 'uuid')}}\",\n  \"delivery\": \"{{'KillChainPhases' | picklist('Delivery', 'uuid')}}\",\n  \"exploitation\": \"{{'KillChainPhases' | picklist('Exploitation', 'uuid')}}\",\n  \"installation\": \"{{'KillChainPhases' | picklist('Installation', 'uuid')}}\",\n  \"command-and-control\": \"{{'KillChainPhases' | picklist('Command & Control', 'uuid')}}\",\n  \"actions-on-objectives\": \"{{'KillChainPhases' | picklist('Actions on Objectives', 'uuid')}}\"\n}",
                 "threat_intel_feeds_typeOfFeed_map": "{'domain-name-value': {{'ThreatIntelFeedType'| picklist('Domain') }}, 'file-name': {{'ThreatIntelFeedType'| picklist('Filename') }}, 'file-hashes-MD5': {{'ThreatIntelFeedType'| picklist('FileHash-MD5') }}, 'file-hashes-SHA-1': {{'ThreatIntelFeedType'| picklist('FileHash-SHA1') }}, 'file-hashes-SHA-256': {{'ThreatIntelFeedType'| picklist('FileHash-SHA256') }}, 'ipv4-addr-value': {{'ThreatIntelFeedType'| picklist('IPv4 Address') }}, 'ipv6-addr-value': {{'ThreatIntelFeedType'| picklist('IPv6 Address') }}, 'windows-registry-key-key': {{'ThreatIntelFeedType'| picklist('Registry') }}, 'process-name': {{'ThreatIntelFeedType'| picklist('Process') }}, 'url-value': {{'ThreatIntelFeedType'| picklist('URL') }}, 'user-account-value': {{'ThreatIntelFeedType'| picklist('User') }}, 'email-message-from_ref-value': {{'ThreatIntelFeedType'| picklist('Email Address') }}, 'email-message-sender_ref-value': {{'ThreatIntelFeedType'| picklist('Email Address') }} }"
               },
               "status": null,
@@ -172,7 +173,7 @@
                 "resource": {
                   "tLP": "{{vars.tlp_resolved}}",
                   "value": "{{vars.item.pattern.split('= ')[-1].strip().replace(\" \",\"\")[1:-2]}}",
-                  "source": "IBM X-Force",
+                  "source": "TAXII Server",
                   "created": "{% if vars.item.created %}{{arrow.get(vars.item.created).int_timestamp}}{% endif %}",
                   "pattern": "{{ vars.item.pattern }}",
                   "modified": "{% if vars.item.modified %}{{arrow.get(vars.item.modified).int_timestamp}}{% else %}None{% endif %}",
@@ -184,7 +185,10 @@
                   "reputation": "{% if vars.reputation %}{{ vars.reputation | resolveRange(vars.reputation_map)}}{% else %}{{ (vars.item.labels[0].split(\"-\")[0][0]|upper + vars.item.labels[0].split(\"-\")[0][1:]) | resolveRange(vars.reputation_map) }}{% endif %}",
                   "sourceData": "{{ vars.item | toJSON}}",
                   "typeOfFeed": "{% if 'pattern' in vars.item %}{{ (vars.item.pattern.split(\" =\")[0].strip()[1:].replace(\":\",\"-\").replace(\".\",\"-\").replace(\"'\",\"\").replace(\" \",\"\")) | resolveRange(vars.threat_intel_feeds_typeOfFeed_map)}}{% endif %}",
-                  "description": "<p>{{ vars.item.description }}</p>"
+                  "description": "<p>{{ vars.item.description }}</p>",
+                  "patternType": "{{ vars.item.pattern_type }}",
+                  "patternVersion": "{{ vars.item.spec_version }}",
+                  "killChainPhases": "{% if vars.item.kill_chain_phases %}['{{ vars.item.kill_chain_phases[0].phase_name | resolveRange(vars.killChainPhases_map) }}']{% else %}None{% endif %}"
                 },
                 "_showJson": false,
                 "collection": "/api/ingest-feeds/threat_intel_feeds",
@@ -245,7 +249,7 @@
               "name": "Return Sample Data",
               "description": null,
               "arguments": {
-                "data": "[\n  {\n    \"id\": \"indicator--ac24e014-76cc-5f65-8aa9-c8d9ce5a1635\",\n    \"name\": \"ip: 1.1.1.1\",\n    \"type\": \"indicator\",\n    \"labels\": [\n      \"threat_types:scanner\",\n      \"tags:Scanner\"\n    ],\n    \"created\": \"2025-07-23T19:27:52.227Z\",\n    \"pattern\": \"[ipv4-addr:value = '1.1.1.1']\",\n    \"modified\": \"2025-08-19T11:24:23.273Z\",\n    \"confidence\": 15,\n    \"valid_from\": \"2025-07-23T19:27:52.227Z\",\n    \"description\": \"threat_types:scanner; tags:Scanner\",\n    \"valid_until\": \"2025-08-19T11:24:23.273Z\",\n    \"pattern_type\": \"stix\",\n    \"spec_version\": \"2.1\",\n    \"kill_chain_phases\": [\n      {\n        \"phase_name\": \"exploitation\",\n        \"kill_chain_name\": \"lockheed-martin-cyber-kill-chain\"\n      }\n    ]\n  }\n]"
+                "data": "[\n  {\n    \"id\": \"indicator--ac24e014-76cc-5f65-8aa9-c8d9ce5a1635\",\n    \"name\": \"ip: 44.251.186.207\",\n    \"type\": \"indicator\",\n    \"labels\": [\n      \"threat_types:scanner\",\n      \"tags:Scanner\"\n    ],\n    \"created\": \"2025-07-23T19:27:52.227Z\",\n    \"pattern\": \"[ipv4-addr:value = '44.251.186.207']\",\n    \"modified\": \"2025-08-19T11:24:23.273Z\",\n    \"confidence\": 15,\n    \"valid_from\": \"2025-07-23T19:27:52.227Z\",\n    \"description\": \"threat_types:scanner; tags:Scanner\",\n    \"valid_until\": \"2025-08-19T11:24:23.273Z\",\n    \"pattern_type\": \"stix\",\n    \"spec_version\": \"2.1\",\n    \"kill_chain_phases\": [\n      {\n        \"phase_name\": \"exploitation\",\n        \"kill_chain_name\": \"lockheed-martin-cyber-kill-chain\"\n      }\n    ]\n  },\n  {\n    \"id\": \"indicator--dd29ae07-d283-5b7b-9809-f6272383a250\",\n    \"name\": \"domain: rbartdeguauwfnmuf.com\",\n    \"type\": \"indicator\",\n    \"labels\": [\n      \"threat_types:malware_cnc\",\n      \"tags:Malware CnC,Malware,Ramnit C2,Ramnit,Ephemeral\"\n    ],\n    \"created\": \"2018-01-15T21:49:36Z\",\n    \"pattern\": \"[domain-name:value = 'rbartdeguauwfnmuf.com']\",\n    \"modified\": \"2025-08-15T22:49:07.274Z\",\n    \"confidence\": 85,\n    \"valid_from\": \"2018-01-15T21:49:36Z\",\n    \"description\": \"threat_types:malware_cnc; tags:Malware CnC,Malware,Ramnit C2,Ramnit,Ephemeral\",\n    \"pattern_type\": \"stix\",\n    \"spec_version\": \"2.1\",\n    \"kill_chain_phases\": [\n      {\n        \"phase_name\": \"command-and-control\",\n        \"kill_chain_name\": \"lockheed-martin-cyber-kill-chain\"\n      }\n    ]\n  },\n  {\n    \"id\": \"indicator--7cec779b-b044-5bf3-9f96-e1de740a203e\",\n    \"name\": \"url: http://bapican.com/bin/javascript/Panel/five/fre.php\",\n    \"type\": \"indicator\",\n    \"labels\": [\n      \"threat_types:malware_cnc\",\n      \"tags:Malware CnC,LokiBot C2,LokiBot,Triage\"\n    ],\n    \"created\": \"2018-09-13T02:29:35Z\",\n    \"pattern\": \"[url:value = 'http://bapican.com/bin/javascript/Panel/five/fre.php']\",\n    \"modified\": \"2025-08-16T16:16:05.036Z\",\n    \"confidence\": 85,\n    \"valid_from\": \"2018-09-13T02:29:35Z\",\n    \"description\": \"threat_types:malware_cnc; tags:Malware CnC,LokiBot C2,LokiBot,Triage\",\n    \"pattern_type\": \"stix\",\n    \"spec_version\": \"2.1\",\n    \"kill_chain_phases\": [\n      {\n        \"phase_name\": \"command-and-control\",\n        \"kill_chain_name\": \"lockheed-martin-cyber-kill-chain\"\n      }\n    ]\n  },\n  {\n    \"id\": \"indicator--bb5b136f-2f47-571b-98e3-b3fa783a135e\",\n    \"name\": \"file_hash_sha256: b65806521aa662bff2c655c8a7a3b6c8e598d709e35f3390df880a70c3fded40\",\n    \"type\": \"indicator\",\n    \"labels\": [\n      \"threat_types:malware\",\n      \"tags:SmokeLoader\"\n    ],\n    \"created\": \"2018-07-03T23:54:36Z\",\n    \"pattern\": \"[file:hashes.'SHA-256' = 'b65806521aa662bff2c655c8a7a3b6c8e598d709e35f3390df880a70c3fded40']\",\n    \"modified\": \"2025-08-13T19:35:39.462Z\",\n    \"confidence\": 85,\n    \"valid_from\": \"2018-07-03T23:54:36Z\",\n    \"description\": \"threat_types:malware; tags:SmokeLoader\",\n    \"pattern_type\": \"stix\",\n    \"spec_version\": \"2.1\",\n    \"kill_chain_phases\": [\n      {\n        \"phase_name\": \"installation\",\n        \"kill_chain_name\": \"lockheed-martin-cyber-kill-chain\"\n      }\n    ]\n  }\n]"
               },
               "status": null,
               "top": "240",
