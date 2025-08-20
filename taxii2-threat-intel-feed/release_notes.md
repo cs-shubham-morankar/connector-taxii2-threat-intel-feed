@@ -1,3 +1,4 @@
 #### The following enhancements have been made to the TAXII Threat Intel Feed connector in version 1.2.1:
 
+- Renamed the `Server URL` to `Server URL (API Root)` parameter in configuration.
 - The issue has been resolved in the connector code to support all client-server URLs.

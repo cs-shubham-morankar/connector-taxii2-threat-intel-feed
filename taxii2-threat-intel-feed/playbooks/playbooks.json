@@ -8,10 +8,12 @@
       "visible": true,
       "image": null,
       "uuid": "0820fcd2-3424-4b4b-aae8-f7ac9b9463a9",
-      "id": 449,
+      "id": 286,
       "deletedAt": null,
       "importedBy": [],
-      "recordTags": [],
+      "recordTags": [
+        "taxii2-threat-intel-feed"
+      ],
       "workflows": [
         {
           "@type": "Workflow",
@@ -26,7 +28,7 @@
           "remoteExecutableFlag": false,
           "parameters": [],
           "synchronous": false,
-          "lastModifyDate": 1719307084,
+          "lastModifyDate": 1755602156,
           "collection": "/api/3/workflow_collections/0820fcd2-3424-4b4b-aae8-f7ac9b9463a9",
           "versions": [],
           "triggerStep": "/api/3/workflow_steps/fa821678-c749-4932-835f-0aeb4364ddfb",
@@ -67,11 +69,13 @@
                 "params": {
                   "limit": "",
                   "offset": "0",
+                  "headers": "",
                   "added_after": "",
                   "output_mode": "Return as a JSON",
-                  "collectionID": "56b3f307-2e05-dab7-6987-bfcd3ba18fea"
+                  "collectionID": "56b3f307-2e05-dab7-6987-bfcd3ba18fea",
+                  "fetch_all_records": ""
                 },
-                "version": "1.0.1",
+                "version": "1.2.1",
                 "connector": "taxii2-threat-intel-feed",
                 "operation": "get_objects_by_collection_id",
                 "operationTitle": "Fetch Indicators",
@@ -100,8 +104,10 @@
           ],
           "groups": [],
           "priority": null,
+          "playbookOrigin": "/api/3/picklists/15c1e8c9-22bf-4e66-8fbb-0a502d4a4a3f",
+          "isEditable": true,
           "uuid": "20064d48-c19e-400f-9ec8-209699f6b345",
-          "id": 5627,
+          "id": 4204,
           "owners": [],
           "isPrivate": false,
           "deletedAt": null,
@@ -126,7 +132,7 @@
             "lastPullTime"
           ],
           "synchronous": false,
-          "lastModifyDate": 1681987973,
+          "lastModifyDate": 1755672345,
           "collection": "/api/3/workflow_collections/0820fcd2-3424-4b4b-aae8-f7ac9b9463a9",
           "versions": [],
           "triggerStep": "/api/3/workflow_steps/95dcb8c0-52fb-4af8-9843-39b4cb407d29",
@@ -239,7 +245,7 @@
               "name": "Return Sample Data",
               "description": null,
               "arguments": {
-                "data": "[\n    {\n      \"id\": \"indicator--c51cf125-631b-4f7b-8478-c7120a01a432\",\n      \"type\": \"indicator\",\n      \"created\": \"2012-03-22T07:26:00.000Z\",\n      \"modified\": \"2021-12-27T22:02:00.000Z\",\n      \"labels\": [\n        \"malicious-activity\",\n        \"xfe-threat-score-7.1\"\n      ],\n      \"name\": \"IP Report for IP address 176.63.6.113\",\n      \"description\": \"Unauthorized access attempts originating from this IP address were detected.\",\n      \"pattern\": \"[ ipv4-addr:value = '176.63.6.113' ]\",\n      \"valid_from\": \"2021-12-27T22:02:00.000Z\"\n    },\n    {\n      \"id\": \"indicator--6d96b9ed-fff3-4192-8602-98a4ea729b0b\",\n      \"type\": \"indicator\",\n      \"created\": \"2012-03-22T07:26:00.000Z\",\n      \"modified\": \"2021-12-27T21:10:00.000Z\",\n      \"labels\": [\n        \"malicious-activity\",\n        \"xfe-threat-score-10\"\n      ],\n      \"name\": \"IP Report for IP address 77.168.147.173\",\n      \"description\": \"This IP was involved in spam sending activities.\",\n      \"pattern\": \"[ ipv4-addr:value = '77.168.147.173' ]\",\n      \"valid_from\": \"2021-12-27T21:10:00.000Z\"\n    },\n    {\n      \"id\": \"indicator--45a22043-4b10-441f-83ef-f2b35e054906\",\n      \"type\": \"indicator\",\n      \"created\": \"2012-03-14T20:59:00.000Z\",\n      \"modified\": \"2021-12-28T11:02:00.000Z\",\n      \"labels\": [\n        \"anomalous-activity\",\n        \"xfe-threat-score-5.7\"\n      ],\n      \"name\": \"IP Report for IP address 109.64.213.22\",\n      \"description\": \"Unauthorized access attempts originating from this IP address were detected.\",\n      \"pattern\": \"[ ipv4-addr:value = '109.64.213.22' ]\",\n      \"valid_from\": \"2021-12-28T11:02:00.000Z\"\n    },\n    {\n      \"id\": \"indicator--25140873-47a7-486a-882e-e347a6897112\",\n      \"type\": \"indicator\",\n      \"created\": \"2012-03-22T07:26:00.000Z\",\n      \"modified\": \"2021-12-27T07:52:00.000Z\",\n      \"labels\": [\n        \"malicious-activity\",\n        \"xfe-threat-score-10\"\n      ],\n      \"name\": \"IP Report for IP address 123.193.193.176\",\n      \"description\": \"One of the five RIRs announced a (new) location mapping of the IP.\",\n      \"pattern\": \"[ ipv4-addr:value = '123.193.193.176' ]\",\n      \"valid_from\": \"2021-12-27T07:52:00.000Z\"\n    },\n    {\n      \"id\": \"indicator--c1faa3a4-8d22-49fd-8a99-443fdc4a7dc2\",\n      \"type\": \"indicator\",\n      \"created\": \"2013-07-06T06:27:00.000Z\",\n      \"modified\": \"2021-12-27T07:52:00.000Z\",\n      \"labels\": [\n        \"malicious-activity\",\n        \"xfe-threat-score-7.1\"\n      ],\n      \"name\": \"IP Report for IP address 179.108.86.6\",\n      \"description\": \"One of the five RIRs announced a (new) location mapping of the IP.\",\n      \"pattern\": \"[ ipv4-addr:value = '179.108.86.6' ]\",\n      \"valid_from\": \"2021-12-27T07:52:00.000Z\"\n    },\n    {\n      \"id\": \"indicator--cd10b0d5-5446-47d1-8cdd-541fc37c7f6e\",\n      \"type\": \"indicator\",\n      \"created\": \"2014-11-11T14:00:00.000Z\",\n      \"modified\": \"2021-12-27T23:03:00.000Z\",\n      \"labels\": [\n        \"anomalous-activity\",\n        \"xfe-threat-score-5.7\"\n      ],\n      \"name\": \"IP Report for IP address 187.255.34.95\",\n      \"description\": \"Unauthorized access attempts originating from this IP address were detected.\",\n      \"pattern\": \"[ ipv4-addr:value = '187.255.34.95' ]\",\n      \"valid_from\": \"2021-12-27T23:03:00.000Z\"\n    }\n]"
+                "data": "[\n  {\n    \"id\": \"indicator--ac24e014-76cc-5f65-8aa9-c8d9ce5a1635\",\n    \"name\": \"ip: 1.1.1.1\",\n    \"type\": \"indicator\",\n    \"labels\": [\n      \"threat_types:scanner\",\n      \"tags:Scanner\"\n    ],\n    \"created\": \"2025-07-23T19:27:52.227Z\",\n    \"pattern\": \"[ipv4-addr:value = '1.1.1.1']\",\n    \"modified\": \"2025-08-19T11:24:23.273Z\",\n    \"confidence\": 15,\n    \"valid_from\": \"2025-07-23T19:27:52.227Z\",\n    \"description\": \"threat_types:scanner; tags:Scanner\",\n    \"valid_until\": \"2025-08-19T11:24:23.273Z\",\n    \"pattern_type\": \"stix\",\n    \"spec_version\": \"2.1\",\n    \"kill_chain_phases\": [\n      {\n        \"phase_name\": \"exploitation\",\n        \"kill_chain_name\": \"lockheed-martin-cyber-kill-chain\"\n      }\n    ]\n  }\n]"
               },
               "status": null,
               "top": "240",
@@ -322,15 +328,17 @@
           ],
           "groups": [],
           "priority": "/api/3/picklists/2b563c61-ae2c-41c0-a85a-c9709585e3f2",
+          "playbookOrigin": "/api/3/picklists/15c1e8c9-22bf-4e66-8fbb-0a502d4a4a3f",
+          "isEditable": true,
           "uuid": "36560d71-5aa0-4c35-b001-d2dc5086aac1",
-          "id": 5628,
+          "id": 4205,
           "owners": [],
           "isPrivate": false,
           "deletedAt": null,
           "importedBy": [],
           "recordTags": [
-            "dataingestion",
             "create",
+            "dataingestion",
             "fetch",
             "taxii2-threat-intel-feed"
           ]
@@ -416,8 +424,10 @@
           ],
           "groups": [],
           "priority": null,
+          "playbookOrigin": "/api/3/picklists/15c1e8c9-22bf-4e66-8fbb-0a502d4a4a3f",
+          "isEditable": true,
           "uuid": "b8f76bb3-378c-454f-9216-752130be80d7",
-          "id": 5629,
+          "id": 4206,
           "owners": [],
           "isPrivate": false,
           "deletedAt": null,
@@ -439,7 +449,7 @@
           "remoteExecutableFlag": false,
           "parameters": [],
           "synchronous": false,
-          "lastModifyDate": 1681987871,
+          "lastModifyDate": 1755673291,
           "collection": "/api/3/workflow_collections/0820fcd2-3424-4b4b-aae8-f7ac9b9463a9",
           "versions": [],
           "triggerStep": "/api/3/workflow_steps/e99de9e8-9f34-4f0d-bed4-8bda324d284e",
@@ -481,10 +491,12 @@
                 "name": "TAXII Threat Intel Feed",
                 "config": "a5a78d61-591c-4a8e-9a1d-f002313b4a14",
                 "params": {
-                  "added_after": "",
+                  "headers": "",
+                  "added_after": "{{vars.lastPullTime}}",
                   "output_mode": "Create as Feed Records in FortiSOAR",
                   "collectionID": "{{vars.item.id}}",
-                  "create_pb_id": "36560d71-5aa0-4c35-b001-d2dc5086aac1"
+                  "create_pb_id": "36560d71-5aa0-4c35-b001-d2dc5086aac1",
+                  "fetch_all_records": ""
                 },
                 "version": "1.2.1",
                 "for_each": {
@@ -657,8 +669,10 @@
           ],
           "groups": [],
           "priority": "/api/3/picklists/2b563c61-ae2c-41c0-a85a-c9709585e3f2",
+          "playbookOrigin": "/api/3/picklists/15c1e8c9-22bf-4e66-8fbb-0a502d4a4a3f",
+          "isEditable": true,
           "uuid": "bbb4c328-26e3-4117-90cf-69b713a2acaa",
-          "id": 5630,
+          "id": 4207,
           "owners": [],
           "isPrivate": false,
           "deletedAt": null,
@@ -674,8 +688,8 @@
   ],
   "exported_tags": [
     "taxii2-threat-intel-feed",
-    "dataingestion",
     "create",
+    "dataingestion",
     "fetch",
     "ingest"
   ]

@@ -107,14 +107,15 @@
   "configuration": {
     "fields": [
       {
-        "title": "Server URL",
+        "title": "Server URL (API Root)",
         "required": true,
         "editable": true,
         "visible": true,
         "type": "text",
         "name": "server_url",
-        "placeholder": "https://api.xforce.ibmcloud.com/api/",
-        "description": "The server URL of the TAXII Threat Intelligence Feed server to connect and retrieve data."
+        "placeholder": "For e.g https://threatfeed.example.com/taxii/root",
+        "description": "The server URL of the TAXII Threat Intelligence Feed server to connect and retrieve data.",
+        "tooltip": "Provide the server URL of the TAXII Threat Intelligence Feed server in the following format: For e.g If the full feed URL is: https://threatfeed.example.com/taxii/root/collections then you should provide: https://threatfeed.example.com/taxii/root"
       },
       {
         "title": "Username/API Key",
