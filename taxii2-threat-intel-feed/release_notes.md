@@ -2,3 +2,5 @@
 
 - Renamed the `Server URL` to `Server URL (API Root)` parameter in configuration.
 - The issue has been resolved in the connector code to support all client-server URLs.
+- Added the following actions and playbooks:
+    - `Get Objects`
