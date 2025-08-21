@@ -4,3 +4,5 @@
 - The issue has been resolved in the connector code to support all client-server URLs.
 - Added the following actions and playbooks:
     - `Get Objects`
+- Updated the parameter name `Created After` to `Added After` in the following operations:
+    - `Fetch Indicators`

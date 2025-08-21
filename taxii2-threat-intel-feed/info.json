@@ -219,7 +219,7 @@
           "description": "Specify the ID of the collection whose general information, such as ID, Title, Description, Can Read, Can Write, and Media Types you want to retrieve from TAXII Threat Intelligence Feed."
         },
         {
-          "title": "Created After",
+          "title": "Added After",
           "name": "added_after",
           "visible": true,
           "required": false,
@@ -314,7 +314,7 @@
           "description": "Specify the ID of the collection whose general information, such as ID, Title, Description, Can Read, Can Write, and Media Types you want to retrieve from TAXII Threat Intelligence Feed."
         },
         {
-          "title": "Created After",
+          "title": "Added After",
           "name": "added_after",
           "visible": true,
           "required": false,
