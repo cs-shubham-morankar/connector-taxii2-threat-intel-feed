@@ -607,7 +607,7 @@
                   "output_mode": "Create as Feed Records in FortiSOAR",
                   "collectionID": "{{vars.item.id}}",
                   "create_pb_id": "36560d71-5aa0-4c35-b001-d2dc5086aac1",
-                  "fetch_all_records": ""
+                  "fetch_all_records": true
                 },
                 "version": "1.2.1",
                 "for_each": {
