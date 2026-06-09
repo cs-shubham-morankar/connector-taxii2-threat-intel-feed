@@ -3,6 +3,7 @@
   "label": "TAXII Threat Intel Feed",
   "description": "TAXII Threat Intel Feed connector acts as a STIX-compliant TAXII client. It connects to user-specified TAXII servers (TAXII v2.1), discovers and enumerates collections via API Root, and retrieves STIX-formatted threat intelligence objects—such as Indicators, Malware, Campaigns—on schedule using Data Ingestion or on demand. <br/><br/>This connector has a dependency on the <a href=\"/content-hub/all-content/?contentType=solutionpack&amp;tag=ThreatIntelManagement\" target=\"_blank\" rel=\"noopener\">Threat Intel Management Solution Pack</a>. Install the Solution Pack before enabling ingestion of Threat Feeds from this source.",
   "publisher": "Fortinet",
+  "contributor": "Dylan Spille",
   "cs_approved": true,
   "cs_compatible": true,
   "version": "2.0.0",
