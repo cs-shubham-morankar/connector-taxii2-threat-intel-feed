@@ -3,7 +3,7 @@
   "data": [
     {
       "@type": "WorkflowCollection",
-      "name": "Sample - TAXII Threat Intel Feed - 1.2.1",
+      "name": "Sample - TAXII Threat Intel Feed - 2.0.0",
       "description": "Sample playbooks for \"TAXII Threat Intel Feed\" connector. If you are planning to use any of the sample playbooks in your environment, ensure that you clone those playbooks and move them to a different collection, since the sample playbook collection gets deleted during connector upgrade and delete.",
       "visible": true,
       "image": null,
@@ -75,7 +75,7 @@
                   "collectionID": "df3d706d-aaf1-4459-a805-c961c9f9b9f2",
                   "fetch_all_records": ""
                 },
-                "version": "1.2.1",
+                "version": "2.0.0",
                 "connector": "taxii2-threat-intel-feed",
                 "operation": "get_objects_by_collection_id",
                 "operationTitle": "Fetch Indicators",
@@ -378,7 +378,7 @@
                   "collectionID": "df3d706d-aaf1-4459-a805-c961c9f9b9f2",
                   "fetch_all_records": ""
                 },
-                "version": "1.2.1",
+                "version": "2.0.0",
                 "connector": "taxii2-threat-intel-feed",
                 "operation": "get_objects",
                 "operationTitle": "Get Objects",
@@ -506,7 +506,7 @@
                 "name": "TAXII Threat Intel Feed",
                 "config": "a5a78d61-591c-4a8e-9a1d-f002313b4a14",
                 "params": [],
-                "version": "1.2.1",
+                "version": "2.0.0",
                 "connector": "taxii2-threat-intel-feed",
                 "operation": "get_collections",
                 "operationTitle": "Get Collections",
@@ -609,7 +609,7 @@
                   "create_pb_id": "36560d71-5aa0-4c35-b001-d2dc5086aac1",
                   "fetch_all_records": true
                 },
-                "version": "1.2.1",
+                "version": "2.0.0",
                 "for_each": {
                   "item": "{{vars.steps.Get_All_Collections.data.collections}}",
                   "parallel": false,
@@ -636,7 +636,7 @@
                 "name": "TAXII Threat Intel Feed",
                 "config": "a5a78d61-591c-4a8e-9a1d-f002313b4a14",
                 "params": [],
-                "version": "1.2.1",
+                "version": "2.0.0",
                 "connector": "taxii2-threat-intel-feed",
                 "operation": "get_collections",
                 "operationTitle": "Get Collections",

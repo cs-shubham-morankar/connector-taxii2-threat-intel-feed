@@ -5,7 +5,7 @@
   "publisher": "Fortinet",
   "cs_approved": true,
   "cs_compatible": true,
-  "version": "1.2.1",
+  "version": "2.0.0",
   "category": "Threat Intelligence",
   "icon_small_name": "small.png",
   "icon_large_name": "large.png",
@@ -17,7 +17,7 @@
     "ThreatIntel",
     "ThreatFeedsIngestion"
   ],
-  "help_online": "https://docs.fortinet.com/document/fortisoar/1.2.1/taxii-threat-intel-feed/1756118021/taxii-threat-intel-feed-v1-2-1",
+  "help_online": "",
   "ingestion_config_schema": [
     {
       "title": "Ingestion Begin From",
@@ -118,34 +118,94 @@
         "tooltip": "The server URL of the TAXII Threat Intelligence Feed server to connect and retrieve data. If the complete feed collections URL is https://threatfeed.example.com/taxii/root/collections/, provide only https://threatfeed.example.com/taxii/root/ as API Root."
       },
       {
-        "title": "Username/API Key",
+        "title": "Authentication Type",
+        "name": "auth_type",
+        "type": "select",
         "required": true,
         "editable": true,
         "visible": true,
-        "type": "text",
-        "name": "username",
-        "description": "The Username/API Key that is configured for your account to access the TAXII Threat Intelligence Feed APIs.",
-        "tooltip": "The Username/API Key that is configured for your account to access the TAXII Threat Intelligence Feed APIs."
+        "options": [
+          "Basic",
+          "Bearer Token",
+          "API Key Header",
+          "None"
+        ],
+        "value": "Basic",
+        "tooltip": "Authentication method used to connect to the TAXII server. Basic = username + password. Bearer Token = Authorization: Bearer <token>. API Key Header = a single named header (e.g. X-API-Key) whose value is stored as a secret. None = unauthenticated.",
+        "description": "Authentication method used to connect to the TAXII server.",
+        "onchange": {
+          "Basic": [
+            {
+              "title": "Username/API Key",
+              "name": "username",
+              "type": "text",
+              "required": true,
+              "editable": true,
+              "visible": true,
+              "description": "The Username/API Key that is configured for your account to access the TAXII Threat Intelligence Feed APIs.",
+              "tooltip": "The Username/API Key that is configured for your account to access the TAXII Threat Intelligence Feed APIs."
+            },
+            {
+              "title": "Password/API Password",
+              "name": "password",
+              "type": "password",
+              "required": true,
+              "editable": true,
+              "visible": true,
+              "value": "",
+              "description": "The Password/API Password that is configured for your account to access the TAXII Threat Intelligence Feed APIs.",
+              "tooltip": "The Password/API Password that is configured for your account to access the TAXII Threat Intelligence Feed APIs."
+            }
+          ],
+          "Bearer Token": [
+            {
+              "title": "Bearer Token",
+              "name": "bearer_token",
+              "type": "password",
+              "required": true,
+              "editable": true,
+              "visible": true,
+              "value": "",
+              "description": "Token sent as 'Authorization: Bearer <token>' on every request.",
+              "tooltip": "Token sent as 'Authorization: Bearer <token>' on every request."
+            }
+          ],
+          "API Key Header": [
+            {
+              "title": "API Key Header Name",
+              "name": "api_key_header_name",
+              "type": "text",
+              "required": true,
+              "editable": true,
+              "visible": true,
+              "placeholder": "X-API-Key",
+              "description": "Name of the HTTP header that carries the API key (e.g. X-API-Key, X-Auth-Token).",
+              "tooltip": "Name of the HTTP header that carries the API key (e.g. X-API-Key, X-Auth-Token)."
+            },
+            {
+              "title": "API Key",
+              "name": "api_key",
+              "type": "password",
+              "required": true,
+              "editable": true,
+              "visible": true,
+              "value": "",
+              "description": "Secret value sent in the API Key Header on every request.",
+              "tooltip": "Secret value sent in the API Key Header on every request."
+            }
+          ],
+          "None": []
+        }
       },
       {
-        "title": "Password/API Password",
-        "required": true,
-        "editable": true,
-        "visible": true,
-        "type": "password",
-        "name": "password",
-        "description": "The Password/API Password that is configured for your account to access the TAXII Threat Intelligence Feed APIs.",
-        "tooltip": "The Password/API Password that is configured for your account to access the TAXII Threat Intelligence Feed APIs."
-      },
-      {
-        "title": "Headers",
+        "title": "Custom Headers",
         "name": "headers",
         "visible": true,
         "required": false,
         "editable": true,
         "type": "json",
-        "tooltip": "Specify custom headers to use in the API request.",
-        "description": "Specify custom headers to use in the API request."
+        "tooltip": "Optional non-sensitive headers to attach to every request. DO NOT put secrets here — values in this field are stored and displayed in plaintext. Use the 'API Key Header' or 'Bearer Token' authentication types for secret headers.",
+        "description": "Optional non-sensitive headers to attach to every request. Values here are stored in plaintext — use 'API Key Header' or 'Bearer Token' auth for secrets."
       },
       {
         "title": "Verify SSL",

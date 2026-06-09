@@ -1,7 +1,7 @@
 """
 Copyright start
 MIT License
-Copyright (c) 2025 Fortinet Inc
+Copyright (c) 2026 Fortinet Inc
 Copyright end
 """
 
@@ -36,14 +36,26 @@ class TAXIIFeed(object):
         if not self.server_url.endswith('/'):
             self.server_url += '/'
 
-        self.username = config.get('username')
-        self.password = config.get('password')
-        usr_pass = self.username + ":" + self.password
-        usr_pass = usr_pass.encode()
-        b64val = base64.b64encode(usr_pass)
-        token = 'Basic {}'.format(b64val.decode("utf-8"))
         self.custom_headers = config.get('headers') or {}
-        self.headers = {'Authorization': token}
+        auth_type = (config.get('auth_type') or 'Basic').strip()
+        auth_headers = {}
+        if auth_type == 'Basic':
+            self.username = config.get('username') or ''
+            self.password = config.get('password') or ''
+            b64val = base64.b64encode((self.username + ':' + self.password).encode())
+            auth_headers['Authorization'] = 'Basic {}'.format(b64val.decode('utf-8'))
+        elif auth_type == 'Bearer Token':
+            auth_headers['Authorization'] = 'Bearer {}'.format(config.get('bearer_token') or '')
+        elif auth_type == 'API Key Header':
+            header_name = (config.get('api_key_header_name') or '').strip()
+            if not header_name:
+                raise ConnectorError("API Key Header Name is required when Authentication Type is 'API Key Header'.")
+            auth_headers[header_name] = config.get('api_key') or ''
+        elif auth_type == 'None':
+            pass
+        else:
+            raise ConnectorError("Unsupported Authentication Type: {}".format(auth_type))
+        self.headers = {**auth_headers, **self.custom_headers}
         self.verify_ssl = config.get('verify_ssl')
         self.error_msg = {
             400: 'The parameters are invalid.',
@@ -149,8 +161,9 @@ def get_collections(config, params, **kwargs):
     taxii = TAXIIFeed(config)
     endpoint = ''
     custom_headers = params.pop('headers', '') or taxii.custom_headers
-    headers = custom_headers or {'Content-Type': 'taxii+json;version=2.1',
-                                 'Accept': 'application/taxii+json;version=2.1'}
+    headers = {'Content-Type': 'taxii+json;version=2.1',
+               'Accept': 'application/taxii+json;version=2.1',
+               **(custom_headers or {})}
     response_headers = taxii.make_request(endpoint=endpoint, headers=headers, api_info='api_root_info')
     headers = {'Accept': response_headers['Content-Type']}
     params = {k: v for k, v in params.items() if v is not None and v != ''}
@@ -170,8 +183,9 @@ def get_objects_by_collection_id(config, params, **kwargs):
     taxii = TAXIIFeed(config)
     custom_headers = params.pop('headers', '') or taxii.custom_headers
     endpoint = ''
-    headers = custom_headers or {'Content-Type': 'taxii+json;version=2.1',
-                                 'Accept': 'application/taxii+json;version=2.1'}
+    headers = {'Content-Type': 'taxii+json;version=2.1',
+               'Accept': 'application/taxii+json;version=2.1',
+               **(custom_headers or {})}
     response_headers = taxii.make_request(endpoint=endpoint, headers=headers, api_info='api_root_info')
     headers = {'Accept': response_headers['Content-Type']}
     params = get_params(params)
@@ -216,8 +230,9 @@ def get_objects(config, params, **kwargs):
     taxii = TAXIIFeed(config)
     custom_headers = params.pop('headers', '') or taxii.custom_headers
     endpoint = ''
-    headers = custom_headers or {'Content-Type': 'taxii+json;version=2.1',
-                                 'Accept': 'application/taxii+json;version=2.1'}
+    headers = {'Content-Type': 'taxii+json;version=2.1',
+               'Accept': 'application/taxii+json;version=2.1',
+               **(custom_headers or {})}
     response_headers = taxii.make_request(endpoint=endpoint, headers=headers, api_info='api_root_info')
     headers = {'Accept': response_headers['Content-Type']}
     params = get_params(params)
@@ -265,8 +280,9 @@ def download_indicators(config, params, **kwargs):
         ]
 
     # Prepare headers for TAXII requests
-    headers = custom_headers or {'Content-Type': 'taxii+json;version=2.1',
-                                 'Accept': 'application/taxii+json;version=2.1'}
+    headers = {'Content-Type': 'taxii+json;version=2.1',
+               'Accept': 'application/taxii+json;version=2.1',
+               **(custom_headers or {})}
     response_headers = taxii.make_request(endpoint=endpoint, headers=headers, api_info='api_root_info')
 
     # Extract query parameters

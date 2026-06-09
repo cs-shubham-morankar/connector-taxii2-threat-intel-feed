@@ -1,7 +1,7 @@
 """
 Copyright start
 MIT License
-Copyright (c) 2025 Fortinet Inc
+Copyright (c) 2026 Fortinet Inc
 Copyright end
 """
 
@@ -16,7 +16,6 @@ class TAXIIFeedCon(Connector):
         logger.info('In execute() Operation: {}'.format(operation))
         try:
             operation = operations.get(operation)
-            # todo let call connector take it from _info
             # now was ingesting it from integration separately
             # changes for fcp/tip specific so it dsnt break on fsr
             if 'connector_name' in kwargs:
