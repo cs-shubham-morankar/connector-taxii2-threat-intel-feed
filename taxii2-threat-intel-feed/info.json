@@ -18,7 +18,7 @@
     "ThreatIntel",
     "ThreatFeedsIngestion"
   ],
-  "help_online": "",
+  "help_online": "https://docs.fortinet.com/document/fortisoar/2.0.0/taxii-threat-intel-feed/200/taxii-threat-intel-feed-v2-0-0",
   "ingestion_config_schema": [
     {
       "title": "Ingestion Begin From",
@@ -143,8 +143,8 @@
               "required": true,
               "editable": true,
               "visible": true,
-              "description": "The Username/API Key that is configured for your account to access the TAXII Threat Intelligence Feed APIs.",
-              "tooltip": "The Username/API Key that is configured for your account to access the TAXII Threat Intelligence Feed APIs."
+              "description": "The username or API key configured for your account to access the TAXII Threat Intelligence Feed APIs.",
+              "tooltip": "The username or API key configured for your account to access the TAXII Threat Intelligence Feed APIs."
             },
             {
               "title": "Password/API Password",
@@ -154,8 +154,8 @@
               "editable": true,
               "visible": true,
               "value": "",
-              "description": "The Password/API Password that is configured for your account to access the TAXII Threat Intelligence Feed APIs.",
-              "tooltip": "The Password/API Password that is configured for your account to access the TAXII Threat Intelligence Feed APIs."
+              "description": "The password or API password configured for your account to access the TAXII Threat Intelligence Feed APIs.",
+              "tooltip": "The password or API password configured for your account to access the TAXII Threat Intelligence Feed APIs."
             }
           ],
           "Bearer Token": [
@@ -167,8 +167,8 @@
               "editable": true,
               "visible": true,
               "value": "",
-              "description": "Token sent as 'Authorization: Bearer <token>' on every request.",
-              "tooltip": "Token sent as 'Authorization: Bearer <token>' on every request."
+              "description": "The token that is sent in the Authorization: Bearer <token> header with every request.",
+              "tooltip": "The token that is sent in the Authorization: Bearer <token> header with every request."
             }
           ],
           "API Key Header": [
@@ -180,8 +180,8 @@
               "editable": true,
               "visible": true,
               "placeholder": "X-API-Key",
-              "description": "Name of the HTTP header that carries the API key (e.g. X-API-Key, X-Auth-Token).",
-              "tooltip": "Name of the HTTP header that carries the API key (e.g. X-API-Key, X-Auth-Token)."
+              "description": "The name of the HTTP header used to carry the API key (for example, X-API-Key or X-Auth-Token).",
+              "tooltip": "The name of the HTTP header used to carry the API key (for example, X-API-Key or X-Auth-Token)."
             },
             {
               "title": "API Key",
@@ -191,8 +191,8 @@
               "editable": true,
               "visible": true,
               "value": "",
-              "description": "Secret value sent in the API Key Header on every request.",
-              "tooltip": "Secret value sent in the API Key Header on every request."
+              "description": "The secret API key value sent in the specified header with every request.",
+              "tooltip": "The secret API key value sent in the specified header with every request."
             }
           ],
           "None": []
@@ -205,8 +205,8 @@
         "required": false,
         "editable": true,
         "type": "json",
-        "tooltip": "Optional non-sensitive headers to attach to every request. DO NOT put secrets here — values in this field are stored and displayed in plaintext. Use the 'API Key Header' or 'Bearer Token' authentication types for secret headers.",
-        "description": "Optional non-sensitive headers to attach to every request. Values here are stored in plaintext — use 'API Key Header' or 'Bearer Token' auth for secrets."
+        "tooltip": "Optional, non-sensitive HTTP headers to include with every request. Header values are stored in plaintext. Do not use this field for sensitive credentials such as API keys or bearer tokens. Instead, use the API Key Header or Bearer Token authentication type to securely send secrets.",
+        "description": "Optional, non-sensitive HTTP headers to include with every request. Header values are stored in plaintext. Do not use this field for sensitive credentials such as API keys or bearer tokens. Instead, use the API Key Header or Bearer Token authentication type to securely send secrets."
       },
       {
         "title": "Verify SSL",
@@ -216,8 +216,8 @@
         "type": "checkbox",
         "name": "verify_ssl",
         "value": true,
-        "description": "Specifies whether the SSL certificate for the server is to be verified. By default, this option is set as True.",
-        "tooltip": "Specifies whether the SSL certificate for the server is to be verified. By default, this option is set as True."
+        "description": "Specifies whether the SSL certificate for the server is to be verified. By default, this option is selected, i.e., set to true.",
+        "tooltip": "Specifies whether the SSL certificate for the server is to be verified. By default, this option is selected, i.e., set to true."
       }
     ]
   },
@@ -375,8 +375,8 @@
           "required": true,
           "editable": true,
           "type": "text",
-          "tooltip": "Specify the ID of the collection from which to retrieve the indicators.",
-          "description": "Specify the ID of the collection from which to retrieve the indicators."
+          "tooltip": "Specify the ID of the collection from which to retrieve the objects.",
+          "description": "Specify the ID of the collection from which to retrieve the objects."
         },
         {
           "title": "Added After",
